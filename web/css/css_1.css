@@ -1,0 +1,28 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Sep 25, 2023, 11:46:44 PM
+    Author     : myths
+*/
+
+.header{
+    display:flex;
+    
+}
+.header-right{
+    margin-left: 600px;
+}
+.header-left{
+    padding-left: 50px;
+}
+.space{
+    height: 100px;
+    border-bottom: 4px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+}
+.label-default{
+    background:orange;
+}

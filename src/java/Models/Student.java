@@ -28,6 +28,9 @@ public class Student {
         this.sid = sid;
     }
 
+    public Student() {
+    }
+
     public String getSname() {
         return sname;
     }

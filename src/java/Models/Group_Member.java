@@ -9,5 +9,6 @@ package Models;
  * @author myths
  */
 public class Group_Member {
+    private Group gid;
     
 }
