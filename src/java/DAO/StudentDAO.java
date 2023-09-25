@@ -27,7 +27,6 @@ public class StudentDAO {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Kết nối đến cơ sở dữ liệu
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
@@ -63,7 +62,7 @@ public class StudentDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -73,6 +72,6 @@ public class StudentDAO {
 
     public static void main(String[] args) {
         StudentDAO s = new StudentDAO();
-        System.out.println(s.getStudentByUsernamePassword("emily.d","world789"));
+        System.out.println(s.getStudentByUsernamePassword("emily.d", "world789"));
     }
 }

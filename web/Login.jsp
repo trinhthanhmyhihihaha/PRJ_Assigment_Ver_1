@@ -36,7 +36,7 @@
             </div>
             <div class="content ">
                 <div class="col-md-6">
-                    <div style="border: solid 1px #ccc; height: 250px;">
+                    <div style="border: solid 1px #ccc; height: 260px;">
                         <fieldset>
                             <legend><span class="label label-default  btn-warning"><b>Phụ huynh</b></span></legend>
                             <div style="margin-top: -15px">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div style="border: solid 1px #ccc; height: 250px;">
+                    <div style="border: solid 1px #ccc; height: 260px;">
                         <fieldset>
                             <legend><span class="label label-default  btn-warning"><b>Sinh viên, Giảng viên, Cán bộ ĐH-FPT</b></span></legend>
                             <br>
@@ -80,7 +80,12 @@
                                     <span style="margin-left: 20px;">
                                         <b>Với sinh viên từ K19 đăng nhập với FEID</b>
                                     </span>
+                                    <br>
+                                    <span style="margin-left: 20px; color: red;padding:5px;" >
+                                        <b>${fail}</b>
+                                    </span>
                                 </div>
+                                
                             
                                 <br>
                             </div>

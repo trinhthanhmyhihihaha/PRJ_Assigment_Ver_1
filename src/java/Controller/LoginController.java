@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
+
 import Models.*;
 import DAO.StudentDAO;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");            
+            out.println("<title>Servlet LoginController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
@@ -73,19 +74,23 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      try{ String username=request.getParameter("username");
-       String password=request.getParameter("password");
-        System.out.println(username+" "+password);
-       StudentDAO a=new StudentDAO();
-       Student student=a.getStudentByUsernamePassword(username, password);
-       if(student!=null){
-           HttpSession session= request.getSession();
-           session.setAttribute("user", username);
-           response.sendRedirect("index.html");
-       }}
-      catch(Exception ex){
-          ex.printStackTrace();
-      }
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            System.out.println(username + " " + password);
+            StudentDAO a = new StudentDAO();
+            Student student = a.getStudentByUsernamePassword(username, password);
+            if (student != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", username);
+                response.sendRedirect("index.html");
+            }else{
+                request.setAttribute("fail", "Login failed");
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
