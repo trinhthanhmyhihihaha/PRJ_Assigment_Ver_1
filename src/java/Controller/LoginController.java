@@ -83,6 +83,7 @@ public class LoginController extends HttpServlet {
             if (student != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);
+              
                 response.sendRedirect("index.html");
             }else{
                 request.setAttribute("fail", "Login failed");

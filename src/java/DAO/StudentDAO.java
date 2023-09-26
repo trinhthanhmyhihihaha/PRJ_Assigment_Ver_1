@@ -72,6 +72,5 @@ public class StudentDAO {
 
     public static void main(String[] args) {
         StudentDAO s = new StudentDAO();
-        System.out.println(s.getStudentByUsernamePassword("emily.d", "world789"));
     }
 }

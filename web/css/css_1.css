@@ -26,3 +26,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .label-default{
     background:orange;
 }
+.space-content{
+    border:1px solid black;
+}

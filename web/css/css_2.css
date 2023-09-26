@@ -1,0 +1,45 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Sep 26, 2023, 2:14:09 PM
+    Author     : myths
+*/
+
+.header{
+    display:flex;
+
+}
+.header-right{
+    margin-left: 600px;
+}
+.header-left{
+    padding-left: 50px;
+}
+.space{
+    height: 50px;
+    border-bottom: 4px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    padding:15px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+.space-content{
+    border-right :1px solid black;
+    margin-right: 5px;
+}
+.space-content-right  a{
+    padding:5px;
+    background-color: #5cb85c;
+}
+.space-right {
+    display: flex;
+    padding:15px;
+    align-items: flex-end;
+}
+.btn-default{
+      background-color: #5cb85c;
+}
