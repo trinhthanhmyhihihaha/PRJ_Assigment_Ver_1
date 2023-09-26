@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -69,8 +70,49 @@ public class StudentDAO {
 
         return null;
     }
+     public ArrayList<Student> getStudentInCourseAndGroup(String course,String group) {
+        ArrayList<Student> studentList= new ArrayList<>();
+             try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT *\n" +
+"FROM Student s\n" +
+"INNER JOIN Group_member gm ON s.sid = gm.sid\n" +
+"INNER JOIN [Group] g ON gm.gid = g.gid\n" +
+"INNER JOIN Schedule sc ON g.gid = sc.gid\n" +
+"INNER JOIN Course c ON sc.cid = c.cid\n" +
+"WHERE c.cid = ?\n" +
+"  AND g.gname = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+preparedStatement.setString(1,course);
+preparedStatement.setString(2,group);
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+             Student s=new Student();
+             s.setSid(rs.getString("sid"));
+             s.setSname(rs.getString("sname"));
+             s.setImage(rs.getBytes("avatar"));
+            studentList.add(s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return studentList;
+    }
 
     public static void main(String[] args) {
         StudentDAO s = new StudentDAO();
+        System.out.println(s.getStudentInCourseAndGroup("LAB211", "SE1702"));
     }
 }

@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="css/css_3.css">
     </head>
     <body>
+        <input type="text" name="${cid}" value="${cid}" >
         <div class="header">
             <div class="header-left">
                 <h1 >FPT University Academic Portal</h1>
@@ -58,13 +59,23 @@
                 <tbody>
                     <!-- Dòng 1 -->
                 <td rowspan="${total+1}">FU-HL</td>
+                
                 <c:forEach items="${courselist}" var="item">
                     <tr>
                         <td><a href="groupInCourse?cid=${item.getCid()}">${item.getCid()}</a></td>
 
+
                     </tr>
                 </c:forEach>
-                    
+                   <td rowspan="${total+1}"></td>
+                     <td rowspan="${total+1}"></td>
+                
+               
+                <c:forEach items="${listGroup}" var="var">
+                    <tr > 
+                        <td class="table-row-fix"><a href="groupList?gid=${var.getGid()}">${var.getGid()}</a></td>
+                    </tr>
+                </c:forEach>
 
                 </tbody>
             </table>

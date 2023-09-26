@@ -46,10 +46,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 .table{
     width:100%;
+    border-collapse: inherit
+   
 }
 .first-child-tr {
     text-transform: uppercase;
     height: 23px;
     background-color: #6b90da;
     font-weight: normal;
+}
+.table-row-fix{
+  position: relative;
+    bottom: 223px;
+        border-top: 1px solid #ddd;
 }

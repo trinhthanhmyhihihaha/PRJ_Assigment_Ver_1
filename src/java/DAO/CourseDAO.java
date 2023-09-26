@@ -53,6 +53,37 @@ public class CourseDAO {
 
         return courseList;
     }
+    
+    public int getTotalCourse() {
+      int count=0;
+             try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT COUNT(DISTINCT cid) as total \n" +
+"FROM Course;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+            count= rs.getInt("total");
+             
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return count;
+    }
      public ArrayList<Course> getAllCourse() {
         ArrayList<Course> courseList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
@@ -139,6 +170,6 @@ public class CourseDAO {
     }
      public static void main(String[] args) {
         CourseDAO a=new CourseDAO();
-         System.out.println(a.getCourse());
+         System.out.println(a.getCourseByID("LAB211"));
     }
 }
