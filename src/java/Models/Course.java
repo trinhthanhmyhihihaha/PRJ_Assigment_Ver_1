@@ -4,17 +4,30 @@
  */
 package Models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author myths
  */
 public class Course {
-    String cid;
-    String cname;
-    int semester;
-
+    private String cid;
+    private String cname;
+    private int semester;
+    private ArrayList<Group> group=new ArrayList<>();
     public String getCid() {
         return cid;
+    }
+
+    public ArrayList<Group> getGroup() {
+        return group;
+    }
+
+    public void setGroup(ArrayList<Group> group) {
+        this.group = group;
+    }
+
+    public Course() {
     }
 
     public void setCid(String cid) {

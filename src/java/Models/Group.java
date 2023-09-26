@@ -4,6 +4,8 @@
  */
 package Models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author myths
@@ -11,11 +13,19 @@ package Models;
 public class Group {
     private String gid;
     private String gname;
+    private ArrayList<Student> student=new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Group{" + "gid=" + gid + ", gname=" + gname + '}';
+    public Group() {
     }
+
+    public ArrayList<Student> getStudent() {
+        return student;
+    }
+
+    public void setStudent(ArrayList<Student> student) {
+        this.student = student;
+    }
+
 
     public Group(String gid, String gname) {
         this.gid = gid;
@@ -36,6 +46,11 @@ public class Group {
 
     public void setGname(String gname) {
         this.gname = gname;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" + "gid=" + gid + ", gname=" + gname + ", student=" + student + '}';
     }
     
 }

@@ -4,8 +4,6 @@
  */
 package Controller;
 
-import Models.*;
-import DAO.StudentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author myths
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "TimeableController", urlPatterns = {"/timeable"})
+public class TimeableController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +36,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet TimeableController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TimeableController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,24 +71,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            System.out.println(username + " " + password);
-            StudentDAO a = new StudentDAO();
-            Student student = a.getStudentByUsernamePassword(username, password);
-            if (student != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-              
-                response.sendRedirect("Timeable.jsp");
-            }else{
-                request.setAttribute("fail", "Login failed");
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     /**

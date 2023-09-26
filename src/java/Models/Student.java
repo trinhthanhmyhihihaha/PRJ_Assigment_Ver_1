@@ -5,6 +5,7 @@
 package Models;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Student {
     private byte[] image;
     private int role;
     private Date dob;
-
+    private ArrayList<Group> group=new ArrayList<>();
     public String getSid() {
         return sid;
     }
