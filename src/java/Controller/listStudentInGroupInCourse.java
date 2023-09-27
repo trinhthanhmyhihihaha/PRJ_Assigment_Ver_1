@@ -3,8 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
-import Models.*;
+
 import DAO.CourseDAO;
+import DAO.GroupDAO;
+import DAO.StudentDAO;
+import Models.Course;
+import Models.Group;
+import Models.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +24,8 @@ import java.util.ArrayList;
  *
  * @author myths
  */
-@WebServlet(name = "GroupController", urlPatterns = {"/group"})
-public class GroupController extends HttpServlet {
+@WebServlet(name = "listStudentInGroupInCourse", urlPatterns = {"/listStudentInGroupInCourse"})
+public class listStudentInGroupInCourse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +44,10 @@ public class GroupController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GroupController</title>");            
+            out.println("<title>Servlet listStudentInGroupInCourse</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GroupController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet listStudentInGroupInCourse at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,16 +66,29 @@ public class GroupController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session =request.getSession();
-       String cid=(String) session.getAttribute("cid");
-               // String cid=request.getParameter("cid");
-             CourseDAO cd=new CourseDAO();
-     
-             ArrayList<Course>listAll=cd.getCourse();
-             int totalCourse=cd.getTotalCourse();
-             request.setAttribute("total",totalCourse);
-             request.setAttribute("courselist", listAll);
-         
-             request.getRequestDispatcher("Group.jsp").forward(request, response);
+           String cid=(String) session.getAttribute("cid");
+    //    String cid = (String) request.getParameter("cid");
+        System.out.println(cid);
+        String gid = (String) request.getParameter("gid");
+        System.out.println(gid);
+        System.out.println(cid);
+        CourseDAO cd = new CourseDAO();
+        StudentDAO sd = new StudentDAO();
+        GroupDAO gd = new GroupDAO();
+        ArrayList<Course> listAll = cd.getCourse();
+        ArrayList<Group> listGroup = gd.getGroupByCourseID(cid);
+        ArrayList<Student> listStudent = sd.getStudentInCourseAndGroup(cid, gid);
+        System.out.println(listStudent);
+        int totalCourse = cd.getTotalCourse();
+        if(listStudent==null){
+            request.setAttribute("listStudent", "Not found any student");
+        }
+        request.setAttribute("listStudent", listStudent);
+        request.setAttribute("listGroup", listGroup);
+        request.setAttribute("total", totalCourse);
+        request.setAttribute("courselist", listAll);
+
+        request.getRequestDispatcher("listStudentInGroupInCourse.jsp").forward(request, response);
     }
 
     /**

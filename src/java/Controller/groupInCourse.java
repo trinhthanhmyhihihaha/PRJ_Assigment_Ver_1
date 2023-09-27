@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 /**
@@ -73,10 +74,12 @@ public class groupInCourse extends HttpServlet {
         ArrayList<Group>listGroup=gd.getGroupByCourseID(cid);
         ArrayList<Student>listStudent=sd.getStudentInCourseAndGroup(cid, cid);
         int totalCourse = cd.getTotalCourse();
+        HttpSession session= request.getSession();
+        session.setAttribute("cid",cid);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);
         request.setAttribute("courselist", listAll);
-      
+        request.setAttribute("cid",cid);
         request.getRequestDispatcher("GroupInCourse.jsp").forward(request, response);
     }
 

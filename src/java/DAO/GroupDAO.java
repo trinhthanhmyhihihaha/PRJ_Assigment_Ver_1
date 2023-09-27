@@ -31,10 +31,7 @@ public class GroupDAO {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT *\n" +
-"FROM [Group] G\n" +
-"INNER JOIN Schedule S ON G.gid = S.gid\n" +
-"INNER JOIN Course C ON S.cid = C.cid where c.cid=? ";
+            String sql = "SELECT * FROM [Group] g inner join Course c on g.cid=c.cid where g.cid=? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,cid);
             // Thực hiện truy vấn và lấy kết quả

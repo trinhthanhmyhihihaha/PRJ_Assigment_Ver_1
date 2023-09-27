@@ -70,36 +70,41 @@ public class StudentDAO {
 
         return null;
     }
-     public ArrayList<Student> getStudentInCourseAndGroup(String course,String group) {
-        ArrayList<Student> studentList= new ArrayList<>();
-             try {
+
+    public ArrayList<Student> getStudentInCourseAndGroup(String course, String group) {
+        ArrayList<Student> studentList = new ArrayList<>();
+        try {
             Connection connection = null;
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT *\n" +
-"FROM Student s\n" +
-"INNER JOIN Group_member gm ON s.sid = gm.sid\n" +
-"INNER JOIN [Group] g ON gm.gid = g.gid\n" +
-"INNER JOIN Schedule sc ON g.gid = sc.gid\n" +
-"INNER JOIN Course c ON sc.cid = c.cid\n" +
-"WHERE c.cid = ?\n" +
-"  AND g.gname = ?";
+            String sql = "SELECT S.*\n"
+                    + "FROM [dbo].[Student] S\n"
+                    + "JOIN [dbo].[Group_member] GM ON S.[sid] = GM.[sid]\n"
+                    + "JOIN [dbo].[Group] G ON GM.[gid] = G.[gid]\n"
+                    + "JOIN [dbo].[Course] C ON G.[cid] = C.[cid]\n"
+                    + "WHERE C.[cid] = ? AND G.[gname] = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-preparedStatement.setString(1,course);
-preparedStatement.setString(2,group);
+            preparedStatement.setString(1, course);
+            preparedStatement.setString(2, group);
             // Thực hiện truy vấn và lấy kết quả
-            ResultSet rs = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             // Xử lý kết quả
-            while (rs.next()) {
-             Student s=new Student();
-             s.setSid(rs.getString("sid"));
-             s.setSname(rs.getString("sname"));
-             s.setImage(rs.getBytes("avatar"));
-            studentList.add(s);
+            while (resultSet.next()) {
+ 
+                Student student = new Student();
+                student.setSid(resultSet.getString("sid"));
+                student.setSname(resultSet.getString("sname"));
+                student.setSusername(resultSet.getString("susername"));
+                student.setPassword(resultSet.getString("spassword"));
+                student.setStatus(resultSet.getBoolean("sstatus"));
+                student.setImage(resultSet.getBytes("avatar"));
+                student.setRole(resultSet.getInt("role"));
+                student.setDob(resultSet.getDate("dob"));
+                studentList.add(student);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,6 +118,6 @@ preparedStatement.setString(2,group);
 
     public static void main(String[] args) {
         StudentDAO s = new StudentDAO();
-        System.out.println(s.getStudentInCourseAndGroup("LAB211", "SE1702"));
+        System.out.println(s.getStudentInCourseAndGroup("PRN211", "SE1701"));
     }
 }

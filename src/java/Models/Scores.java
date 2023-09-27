@@ -11,17 +11,20 @@ package Models;
 public class Scores {
     private int scoreID;
     private String sid;
-    private String gid;
-    private float pt1_score;
-    private float pt2_score;
-    private float pt3_score;
-    private float pe;
-    private float fe;
-    private float total_score;
+   private String comment;
+   private String score_item;
+   private float value;
+   private float weight;
+   private String cid;
 
-    @Override
-    public String toString() {
-        return "Scores{" + "scoreID=" + scoreID + ", sid=" + sid + ", gid=" + gid + ", pt1_score=" + pt1_score + ", pt2_score=" + pt2_score + ", pt3_score=" + pt3_score + ", pe=" + pe + ", fe=" + fe + ", total_score=" + total_score + '}';
+    public Scores(int scoreID, String sid, String comment, String score_item, float value, float weight, String cid) {
+        this.scoreID = scoreID;
+        this.sid = sid;
+        this.comment = comment;
+        this.score_item = score_item;
+        this.value = value;
+        this.weight = weight;
+        this.cid = cid;
     }
 
     public int getScoreID() {
@@ -40,83 +43,45 @@ public class Scores {
         this.sid = sid;
     }
 
-    public String getGid() {
-        return gid;
+    public String getComment() {
+        return comment;
     }
 
-    public void setGid(String gid) {
-        this.gid = gid;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public float getPt1_score() {
-        return pt1_score;
+    public String getScore_item() {
+        return score_item;
     }
 
-    public void setPt1_score(float pt1_score) {
-        this.pt1_score = pt1_score;
+    public void setScore_item(String score_item) {
+        this.score_item = score_item;
     }
 
-    public float getPt2_score() {
-        return pt2_score;
+    public float getValue() {
+        return value;
     }
 
-    public void setPt2_score(float pt2_score) {
-        this.pt2_score = pt2_score;
+    public void setValue(float value) {
+        this.value = value;
     }
 
-    public float getPt3_score() {
-        return pt3_score;
+    public float getWeight() {
+        return weight;
     }
 
-    public void setPt3_score(float pt3_score) {
-        this.pt3_score = pt3_score;
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
-    public float getPe() {
-        return pe;
+    public String getCid() {
+        return cid;
     }
 
-    public void setPe(float pe) {
-        this.pe = pe;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
+   
 
-    public float getFe() {
-        return fe;
-    }
-
-    public void setFe(float fe) {
-        this.fe = fe;
-    }
-
-    public float getTotal_score() {
-        return total_score;
-    }
-
-    public void setTotal_score(float total_score) {
-        this.total_score = total_score;
-    }
-
-    public Scores(String sid, String gid, float pt1_score, float pt2_score, float pt3_score, float pe, float fe, float total_score) {
-        this.sid = sid;
-        this.gid = gid;
-        this.pt1_score = pt1_score;
-        this.pt2_score = pt2_score;
-        this.pt3_score = pt3_score;
-        this.pe = pe;
-        this.fe = fe;
-        this.total_score = total_score;
-    }
-
-    public Scores(int scoreID, String sid, String gid, float pt1_score, float pt2_score, float pt3_score, float pe, float fe, float total_score) {
-        this.scoreID = scoreID;
-        this.sid = sid;
-        this.gid = gid;
-        this.pt1_score = pt1_score;
-        this.pt2_score = pt2_score;
-        this.pt3_score = pt3_score;
-        this.pe = pe;
-        this.fe = fe;
-        this.total_score = total_score;
-    }
-    
 }
