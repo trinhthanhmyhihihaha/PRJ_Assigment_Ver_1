@@ -14,31 +14,64 @@ public class Schedule {
     private int scheduleid;
     private String iID;
     private String gid;
-    private String cid;
-    private Date startDate;
-    private Date endDate;
+    private String roomid;
+   private String content;
+   private int slot;
+   private Date date;
 
-    @Override
-    public String toString() {
-        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", cid=" + cid + ", startDate=" + startDate + ", endDate=" + endDate + '}';
-    }
-
-    public Schedule(String iID, String gid, String cid, Date startDate, Date endDate) {
-        this.iID = iID;
-        this.gid = gid;
-        this.cid = cid;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public Schedule(int scheduleid, String iID, String gid, String cid, Date startDate, Date endDate) {
+    public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, Date date) {
         this.scheduleid = scheduleid;
         this.iID = iID;
         this.gid = gid;
-        this.cid = cid;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.roomid = roomid;
+        this.content = content;
+        this.slot = slot;
+        this.date = date;
     }
+
+    public Schedule() {
+    }
+
+    @Override
+    public String toString() {
+        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", date=" + date + '}';
+    }
+
+    public String getRoomid() {
+        return roomid;
+    }
+
+    public void setRoomid(String roomid) {
+        this.roomid = roomid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+   
+
+   
 
     public int getScheduleid() {
         return scheduleid;
@@ -64,28 +97,6 @@ public class Schedule {
         this.gid = gid;
     }
 
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+   
     
 }

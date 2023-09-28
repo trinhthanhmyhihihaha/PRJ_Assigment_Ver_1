@@ -3,22 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/listStudentInGroupInCourse.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/groupInCourse.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/GroupInCourse.jsp</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Week.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/GroupController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Group.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Timeable.jsp</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/TimeableController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Group_Member.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/DAO.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/LoginController.java</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Timeable.jsp</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/viewSchedule.jsp</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/WeekDAO.java</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/listStudentInGroupInCourse.jsp</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Final_Result.java</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Scores.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/css/css_3.css</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Student.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Group.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/CourseDAO.java</file>
             <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/StudentDAO.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/Course.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/GroupDAO.java</file>
+            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/selectYearController.java</file>
         </group>
     </open-files>
 </project-private>

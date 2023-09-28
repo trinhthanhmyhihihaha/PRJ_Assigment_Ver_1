@@ -17,6 +17,14 @@ public class Scores {
    private float weight;
    private String cid;
 
+    public Scores() {
+    }
+
+    @Override
+    public String toString() {
+        return "Scores{" + "scoreID=" + scoreID + ", sid=" + sid + ", comment=" + comment + ", score_item=" + score_item + ", value=" + value + ", weight=" + weight + ", cid=" + cid + '}';
+    }
+
     public Scores(int scoreID, String sid, String comment, String score_item, float value, float weight, String cid) {
         this.scoreID = scoreID;
         this.sid = sid;
