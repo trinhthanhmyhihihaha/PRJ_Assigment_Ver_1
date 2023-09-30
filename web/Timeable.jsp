@@ -89,12 +89,12 @@
                         </select>
                         <br>
                         <form name="selectYear" action="selectYear" method="get">
-                            <select name="selectWeek" id="weekSelector "onchange="submitForm()">
+                            <select name="selectWeek" id="weekSelector " >
                                 <c:forEach items="${weekList}" var="week">
                                     <option value ="${week.startWeek}--${week.endWeek}">${week.startWeek} -> ${week.endWeek}</option>
                                 </c:forEach>
                             </select>
-                            <input type="submit" style="display: none">
+                            <button type="submit">Submit</button>
                         </form>
 
                     </th>
@@ -107,9 +107,9 @@
                     <th align="center">Sun</th>
                 </tr>
                 <tr>
-               
+
                     <c:forEach items="${daylist}" var="var">
-                        <th align="center">${var.day}/${var.month}</th>
+                        <th align="center">${var.getDay()}/${var.month}</th>
                         </c:forEach>                
                 </tr>
             </thead>
@@ -128,124 +128,107 @@
                 <!-- Slot 1 -->
                 <tr>
                     <td>Slot 1</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                    <c:forEach items="${schedulelist1}" var="schedule">
+                        <c:forEach items="${daylist}" var="var">
+                            
+                            <c:choose>
+                                <c:when test="${schedule.date== var.toDate()}"> 
+                                    <td style="color: #337ab7;
+                                        text-decoration: none;">${schedule.getCourseid()} </span> at <span class="roomid">${schedule.getRoomid()} (7:30-9:50)</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>-</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:forEach>
                 </tr>
-                <!-- Add more slot rows as needed -->
+
+                <!-- Slot 2 -->
                 <tr>
                     <td>Slot 2</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+
+                    <c:forEach items="${schedulelist2}" var="schedule">
+                        <c:forEach items="${daylist}" var="var">
+                            <c:choose>
+                                <c:when test="${schedule.date== var.toDate()}">
+                                    <td style="color: #337ab7;
+                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>-</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:forEach>
                 </tr>
+
+                <!-- Thêm các Slot khác tương tự -->
+
                 <tr>
                     <td>Slot 3</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                    <c:forEach items="${schedulelist3}" var="schedule">
+                        <c:forEach items="${daylist}" var="var">
+                            <c:choose>
+                                <c:when test="${schedule.date==var.toDate()}">
+                                    <td style="color: #337ab7;
+                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10)</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>-</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:forEach>
                 </tr>
                 <tr>
                     <td>Slot 4</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                    <c:forEach items="${schedulelist4}" var="schedule">
+                        <c:forEach items="${daylist}" var="var">
+                            <c:choose>
+                                <c:when test="${schedule.date== var.toDate()}">
+                                    <td style="color: #337ab7;
+                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} 
+                                        (15:20-17:40)</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <td>-</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:forEach>
                 </tr>
                 <tr>
                     <td>Slot 5</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                
                 </tr>
                 <tr>
                     <td>Slot 6</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                   
                 </tr>
                 <tr>
                     <td>Slot 7</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                  
                 </tr>
                 <tr>
                     <td>Slot 8</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                    
                 </tr>
                 <tr>
                     <td>Slot 9</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                    
                 </tr>
                 <tr>
                     <td>Slot 10</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+            
                 </tr>
                 <tr>
                     <td>Slot 11</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+                   
                 </tr>
                 <tr>
                     <td>Slot 12</td>
-                    <td><!-- Add your content here for Slot 1 on Monday --></td>
-                    <td><!-- Add your content here for Slot 1 on Tuesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Wednesday --></td>
-                    <td><!-- Add your content here for Slot 1 on Thursday --></td>
-                    <td><!-- Add your content here for Slot 1 on Friday --></td>
-                    <td><!-- Add your content here for Slot 1 on Saturday --></td>
-                    <td><!-- Add your content here for Slot 1 on Sunday --></td>
+               
                 </tr>
             </tbody>
         </table>

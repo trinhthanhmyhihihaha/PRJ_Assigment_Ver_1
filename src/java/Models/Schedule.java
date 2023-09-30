@@ -4,20 +4,42 @@
  */
 package Models;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 /**
  *
  * @author myths
  */
 public class Schedule {
+
     private int scheduleid;
     private String iID;
     private String gid;
     private String roomid;
-   private String content;
-   private int slot;
-   private Date date;
+    private String content;
+    private int slot;
+    private Date date;
+    private String courseid;
+
+    @Override
+    public String toString() {
+        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", date=" + date + ", courseid=" + courseid + '}';
+    }
+
+    public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, Date date, String courseid) {
+        this.scheduleid = scheduleid;
+        this.iID = iID;
+        this.gid = gid;
+        this.roomid = roomid;
+        this.content = content;
+        this.slot = slot;
+        this.date = date;
+        this.courseid = courseid;
+    }
 
     public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, Date date) {
         this.scheduleid = scheduleid;
@@ -30,11 +52,6 @@ public class Schedule {
     }
 
     public Schedule() {
-    }
-
-    @Override
-    public String toString() {
-        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", date=" + date + '}';
     }
 
     public String getRoomid() {
@@ -69,9 +86,13 @@ public class Schedule {
         this.date = date;
     }
 
-   
+    public String getCourseid() {
+        return courseid;
+    }
 
-   
+    public void setCourseid(String courseid) {
+        this.courseid = courseid;
+    }
 
     public int getScheduleid() {
         return scheduleid;
@@ -97,6 +118,11 @@ public class Schedule {
         this.gid = gid;
     }
 
-   
-    
+  public boolean isSameDate(Date otherDate) {
+        LocalDate thisLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate otherLocalDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return thisLocalDate.equals(otherLocalDate);
+    }
+  
 }

@@ -11,14 +11,18 @@ import java.util.Date;
  * @author myths
  */
 public class Status {
-   private int sttid;
-   private String sid;
-   private Date check;
-   private int slot;
-   private String status;
-   private String scheduleID;
 
-    public Status(int sttid, String sid, Date check, int slot, String status, String scheduleID) {
+    private int sttid;
+    private String sid;
+    private Date check;
+    private int slot;
+    private String status;
+    private int scheduleID;
+
+    public Status() {
+    }
+
+    public Status(int sttid, String sid, Date check, int slot, String status, int scheduleID) {
         this.sttid = sttid;
         this.sid = sid;
         this.check = check;
@@ -72,12 +76,12 @@ public class Status {
         this.status = status;
     }
 
-    public String getScheduleID() {
+    public int getScheduleID() {
         return scheduleID;
     }
 
-    public void setScheduleID(String scheduleID) {
+    public void setScheduleID(int scheduleID) {
         this.scheduleID = scheduleID;
     }
-   
+
 }

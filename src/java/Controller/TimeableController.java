@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.WeekDAO;
+import Models.Schedule;
 import Time.Week;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 /**
@@ -39,7 +41,7 @@ public class TimeableController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TimeableController</title>");            
+            out.println("<title>Servlet TimeableController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet TimeableController at " + request.getContextPath() + "</h1>");
@@ -60,17 +62,20 @@ public class TimeableController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String selectYear="2023";
+        String selectYear = "2023";
+        HttpSession session = request.getSession();
+        String sid = (String) session.getAttribute("sid");
         System.out.println(selectYear);
-        WeekDAO wd=new WeekDAO();
-     
-        ArrayList<Week> weekList=wd.getInYearWeek(selectYear);
+        WeekDAO wd = new WeekDAO();
+
+        ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+        //  ArrayList<Schedule> scheduleList
 //           String day=getDayFromDate(weekList.);
-       // String month=getMonthFromDate(Date.valueOf(selectYear));
+        // String month=getMonthFromDate(Date.valueOf(selectYear));
         request.setAttribute("selectYear", selectYear);
         request.setAttribute("weekList", weekList);
         request.getRequestDispatcher("Timeable.jsp").forward(request, response);
-        
+
     }
 
     /**

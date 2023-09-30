@@ -11,6 +11,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     display:flex;
 
 }
+
+.coursename{
+    color: #337ab7;
+    text-decoration: none;
+}
+.roomid{
+        margin: 0 0 10px;
+    text-align: left;
+}
 .header-right{
     margin-left: 600px;
 }

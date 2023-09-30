@@ -21,7 +21,10 @@ public class Day {
         this.month = month;
         this.day = day;
     }
-
+  public Date toDate() {
+        String dateString = year + "-" + month + "-" + day;
+        return Date.valueOf(dateString);
+    }
     // Getter cho năm
     public String getYear() {
         return year;

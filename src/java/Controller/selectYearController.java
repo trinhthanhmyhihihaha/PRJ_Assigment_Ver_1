@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import DAO.ScheduleDAO;
+import DAO.StatusDAO;
 import Time.Week;
 import DAO.WeekDAO;
 import java.io.IOException;
@@ -16,8 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import Models.*;
 import Time.Day;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -65,16 +70,43 @@ public class selectYearController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String selectYear = "2023";
+        HttpSession session = request.getSession();
+        //String sid=(String)session.getAttribute("sid");
+        String sid = "HE153132";
+
         System.out.println(selectYear);
         WeekDAO wd = new WeekDAO();
-
+        ScheduleDAO sd = new ScheduleDAO();
+        StatusDAO sttd=new StatusDAO();
         ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+
         String selectedWeek = request.getParameter("selectWeek");
+        System.out.println("selectedWeek" + selectedWeek);
         String[] splitedWeek = selectedWeek.split("\\--");
-  
+
+            Map<Schedule,String> maplist=sd.getScheduleStatus();
+        ArrayList<Status>sttlist=sttd.getScheduleBySlot(sid);
         ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
-        System.out.println(dayList+"daylist");
+        ArrayList<Schedule> scheduleList = sd.getScheduleBySID(sid, splitedWeek[0], splitedWeek[1]);
+        ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 1);
+        ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 2);
+        ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 3);
+        ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 4);
+
+        System.out.println(splitedWeek[0]);
+        System.out.println(splitedWeek[1]);
+        System.out.println(scheduleList + "scueduleList");
+        System.out.println(dayList + "daylist");
         System.out.println(selectedWeek + "selectedweek");
+        System.out.println(sttlist+"sttlist");
+        
+        request.setAttribute("scheduleMap", maplist);
+        request.setAttribute("sttlist", sttlist);
+        request.setAttribute("schedulelist1", scheduleListslot1);
+        request.setAttribute("schedulelist2", scheduleListslot2);
+        request.setAttribute("schedulelist3", scheduleListslot3);
+        request.setAttribute("schedulelist4", scheduleListslot4);
+        request.setAttribute("schedulelist", scheduleList);
         request.setAttribute("selectYear", selectYear);
         request.setAttribute("daylist", dayList);
         request.setAttribute("weekList", weekList);

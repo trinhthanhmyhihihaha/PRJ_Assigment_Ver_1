@@ -83,9 +83,9 @@ public class LoginController extends HttpServlet {
             if (student != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);
-              
+                session.setAttribute("sid", student.getSid());
                 response.sendRedirect("Timeable.jsp");
-            }else{
+            } else {
                 request.setAttribute("fail", "Login failed");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
