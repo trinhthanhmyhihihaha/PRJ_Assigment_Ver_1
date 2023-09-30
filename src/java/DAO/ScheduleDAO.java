@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,7 +132,53 @@ public class ScheduleDAO {
 
         return scheduleInfoMap;
     }
+public ArrayList<ScheduleInfo>getScheduleInfo(String sid) {
+       
+        ArrayList<ScheduleInfo> scheduleInfoList = new ArrayList<>();
 
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+           String sql = "SELECT s.scheduleid AS MaLichHoc, s.content AS NoiDungLichHoc, s.date AS NgayHoc, " +
+                    "ts.slotNo AS SlotHoc, st.status AS TrangThai, st.sid AS MaSinhVien " +
+                    "FROM Schedule s " +
+                    "INNER JOIN TimeSlots ts ON s.slot = ts.slotNo " +
+                    "LEFT JOIN Status st ON s.scheduleid = st.scheduleid " +
+                    "INNER JOIN Student std ON st.sid = std.sid " +
+                    "WHERE std.sid = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,sid);
+            // Thực hiện truy vấn và lấy kết quả
+          
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ScheduleInfo scheduleInfo = new ScheduleInfo();
+                scheduleInfo.setMaLichHoc(resultSet.getInt("MaLichHoc"));
+                scheduleInfo.setNoiDungLichHoc(resultSet.getString("NoiDungLichHoc"));
+                scheduleInfo.setNgayHoc(resultSet.getString("NgayHoc"));
+                scheduleInfo.setSlotHoc(resultSet.getInt("SlotHoc"));
+                scheduleInfo.setTrangThai(resultSet.getString("TrangThai"));
+                scheduleInfo.setMaSinhVien(resultSet.getString("MaSinhVien"));
+
+                scheduleInfoList.add(scheduleInfo);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        return scheduleInfoList;
+    }
     public ArrayList<Schedule> getScheduleBySlot(String sid, String startDate, String endDate, int slot) {
         ArrayList<Schedule> scheduleList = new ArrayList<>();
         try {
@@ -189,6 +236,6 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getScheduleStatus());
+        System.out.println(a.getScheduleInfo("HE153132"));
     }
 }

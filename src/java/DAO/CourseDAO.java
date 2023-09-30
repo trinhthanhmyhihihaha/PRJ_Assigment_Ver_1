@@ -7,32 +7,37 @@ package DAO;
 import Models.*;
 import Models.Student;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author myths
  */
 public class CourseDAO {
-     private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=Project_Prj_Ver1";
+
+    private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=Project_Prj_Ver1";
     private static final String JDBC_USER = "sa";
     private static final String JDBC_PASSWORD = "123";
-    
+
     public ArrayList<Course> getCourse() {
-        ArrayList<Course> courseList= new ArrayList<>();
-             try {
+        ArrayList<Course> courseList = new ArrayList<>();
+        try {
             Connection connection = null;
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT DISTINCT cid\n" +
-"FROM Course;";
+            String sql = "SELECT DISTINCT cid\n"
+                    + "FROM Course;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             // Thực hiện truy vấn và lấy kết quả
@@ -40,9 +45,9 @@ public class CourseDAO {
 
             // Xử lý kết quả
             while (rs.next()) {
-              Course c=new Course();
-              c.setCid(rs.getString("cid"));
-              courseList.add(c);
+                Course c = new Course();
+                c.setCid(rs.getString("cid"));
+                courseList.add(c);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,18 +58,18 @@ public class CourseDAO {
 
         return courseList;
     }
-    
+
     public int getTotalCourse() {
-      int count=0;
-             try {
+        int count = 0;
+        try {
             Connection connection = null;
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT COUNT(DISTINCT cid) as total \n" +
-"FROM Course;";
+            String sql = "SELECT COUNT(DISTINCT cid) as total \n"
+                    + "FROM Course;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             // Thực hiện truy vấn và lấy kết quả
@@ -72,8 +77,8 @@ public class CourseDAO {
 
             // Xử lý kết quả
             while (rs.next()) {
-            count= rs.getInt("total");
-             
+                count = rs.getInt("total");
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,7 +89,8 @@ public class CourseDAO {
 
         return count;
     }
-     public ArrayList<Course> getAllCourse() {
+
+    public ArrayList<Course> getAllCourse() {
         ArrayList<Course> courseList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
         try {
@@ -94,28 +100,28 @@ public class CourseDAO {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT *\n" +
-"FROM [Group] G\n" +
-"INNER JOIN Schedule S ON G.gid = S.gid\n" +
-"INNER JOIN Course C ON S.cid = C.cid ";
+            String sql = "SELECT *\n"
+                    + "FROM [Group] G\n"
+                    + "INNER JOIN Schedule S ON G.gid = S.gid\n"
+                    + "INNER JOIN Course C ON S.cid = C.cid ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-          
+
             // Thực hiện truy vấn và lấy kết quả
             ResultSet rs = preparedStatement.executeQuery();
 
             // Xử lý kết quả
             while (rs.next()) {
-             Group grp=new Group();
+                Group grp = new Group();
                 grp.setGid(rs.getString("gid"));
                 grp.setGname(rs.getString("gname"));
                 groupList.add(grp);
-                Course courseF=new Course();
+                Course courseF = new Course();
                 courseF.setCid(rs.getString("cid"));
                 courseF.setCname(rs.getString("cname"));
-              courseF.setSemester(Integer.parseInt(rs.getString("semester")));
-              courseF.setGroup(groupList);
-              courseList.add(courseF);
-               
+                courseF.setSemester(Integer.parseInt(rs.getString("semester")));
+                courseF.setGroup(groupList);
+                courseList.add(courseF);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,7 +132,8 @@ public class CourseDAO {
 
         return courseList;
     }
-        public ArrayList<Course> getCourseByID(String cid) {
+
+    public ArrayList<Course> getCourseByID(String cid) {
         ArrayList<Course> courseList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
         try {
@@ -136,28 +143,28 @@ public class CourseDAO {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT *\n" +
-"FROM [Group] G\n" +
-"INNER JOIN Schedule S ON G.gid = S.gid\n" +
-"INNER JOIN Course C ON S.cid = C.cid where c.cid=? ";
+            String sql = "SELECT *\n"
+                    + "FROM [Group] G\n"
+                    + "INNER JOIN Schedule S ON G.gid = S.gid\n"
+                    + "INNER JOIN Course C ON S.cid = C.cid where c.cid=? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cid);
+            preparedStatement.setString(1, cid);
             // Thực hiện truy vấn và lấy kết quả
             ResultSet rs = preparedStatement.executeQuery();
 
             // Xử lý kết quả
             while (rs.next()) {
-             Group grp=new Group();
+                Group grp = new Group();
                 grp.setGid(rs.getString("gid"));
                 grp.setGname(rs.getString("gname"));
                 groupList.add(grp);
-                Course courseF=new Course();
+                Course courseF = new Course();
                 courseF.setCid(rs.getString("cid"));
                 courseF.setCname(rs.getString("cname"));
-              courseF.setSemester(Integer.parseInt(rs.getString("semester")));
-              courseF.setGroup(groupList);
-              courseList.add(courseF);
-               
+                courseF.setSemester(Integer.parseInt(rs.getString("semester")));
+                courseF.setGroup(groupList);
+                courseList.add(courseF);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -168,8 +175,89 @@ public class CourseDAO {
 
         return courseList;
     }
-     public static void main(String[] args) {
-        CourseDAO a=new CourseDAO();
-         System.out.println(a.getCourseByID("LAB211"));
+
+  public List<Map<String, Object>> getAllCourseOfStudent(String sid) {
+    List<Map<String, Object>> courseList = new ArrayList<>();
+
+    try {
+        Connection connection = null;
+
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+        // Truy vấn SQL để lấy thông tin sinh viên
+        String sql = "SELECT c.cid AS MaKhoaHoc, c.cname AS TenKhoaHoc, g.gid AS MaLop, s.scheduleid AS MaLichHoc, s.date AS NgayHoc\n"
+                + "FROM Course c\n"
+                + "INNER JOIN [Group] g ON c.cid = g.cid\n"
+                + "INNER JOIN Schedule s ON g.gid = s.gid\n"
+                + "INNER JOIN Group_member gm ON g.gid = gm.gid\n"
+                + "INNER JOIN Student st ON gm.sid = st.sid\n"
+                + "WHERE st.sid = ?;\n"
+                + " ";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, sid);
+
+        // Thực hiện truy vấn và lấy kết quả
+        ResultSet rs = preparedStatement.executeQuery();
+
+        // Xử lý kết quả và thêm vào danh sách
+        while (rs.next()) {
+            Map<String, Object> courseInfo = new HashMap<>();
+            courseInfo.put("MaKhoaHoc", rs.getString("MaKhoaHoc"));
+            courseInfo.put("TenKhoaHoc", rs.getString("TenKhoaHoc"));
+            courseInfo.put("MaLop", rs.getString("MaLop"));
+            courseInfo.put("MaLichHoc", rs.getInt("MaLichHoc")); // Thêm cột MaLichHoc
+            courseInfo.put("NgayHoc", rs.getDate("NgayHoc"));
+
+            courseList.add(courseInfo);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return courseList;
+}
+
+     public Date getStartDateCourse(String sid) {
+      String date="";
+        Group group=new Group();
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT TOP 1 c.cid AS MaKhoaHoc, c.cname AS TenKhoaHoc, g.gid AS MaLop, s.scheduleid AS MaLichHoc, s.date AS NgayHoc\n" +
+"FROM Course c\n" +
+"INNER JOIN [Group] g ON c.cid = g.cid\n" +
+"INNER JOIN Schedule s ON g.gid = s.gid\n" +
+"INNER JOIN Group_member gm ON g.gid = gm.gid\n" +
+"INNER JOIN Student st ON gm.sid = st.sid\n" +
+"WHERE st.sid =? Order by s.date asc;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, sid);
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+               date=String.valueOf(rs.getDate("NgayHoc"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return Date.valueOf(date);
+    }
+
+    public static void main(String[] args) {
+        CourseDAO a = new CourseDAO();
+        System.out.println(a.getAllCourseOfStudent("HE153132"));
     }
 }

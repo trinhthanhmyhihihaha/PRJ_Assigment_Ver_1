@@ -13,28 +13,68 @@ import java.util.List;
 
 public class ScheduleInfo {
 
-    private Schedule schedule;
-    private String courseStatus;
+    private int maLichHoc;
+    private String noiDungLichHoc;
+    private String ngayHoc;
+    private int slotHoc;
+    private String trangThai;
+    private String maSinhVien;
 
-    public ScheduleInfo(Schedule schedule, String courseStatus) {
-        this.schedule = schedule;
-        this.courseStatus = courseStatus;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public String getCourseStatus() {
-        return courseStatus;
+    @Override
+    public String toString() {
+        return "ScheduleInfo{" + "maLichHoc=" + maLichHoc + ", noiDungLichHoc=" + noiDungLichHoc + ", ngayHoc=" + ngayHoc + ", slotHoc=" + slotHoc + ", trangThai=" + trangThai + ", maSinhVien=" + maSinhVien + '}';
     }
 
     public ScheduleInfo() {
     }
 
-    @Override
-    public String toString() {
-        return "ScheduleInfo{" + "schedule=" + schedule + ", courseStatus=" + courseStatus + '}';
+    public int getMaLichHoc() {
+        return maLichHoc;
     }
+
+    public void setMaLichHoc(int maLichHoc) {
+        this.maLichHoc = maLichHoc;
+    }
+
+    public String getNoiDungLichHoc() {
+        return noiDungLichHoc;
+    }
+
+    public void setNoiDungLichHoc(String noiDungLichHoc) {
+        this.noiDungLichHoc = noiDungLichHoc;
+    }
+
+    public String getNgayHoc() {
+        return ngayHoc;
+    }
+
+    public void setNgayHoc(String ngayHoc) {
+        this.ngayHoc = ngayHoc;
+    }
+
+    public int getSlotHoc() {
+        return slotHoc;
+    }
+
+    public void setSlotHoc(int slotHoc) {
+        this.slotHoc = slotHoc;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public String getMaSinhVien() {
+        return maSinhVien;
+    }
+
+    public void setMaSinhVien(String maSinhVien) {
+        this.maSinhVien = maSinhVien;
+    }
+    
     
 }
