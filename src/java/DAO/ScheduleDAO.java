@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -132,8 +134,61 @@ public class ScheduleDAO {
 
         return scheduleInfoMap;
     }
-public ArrayList<ScheduleInfo>getScheduleInfo(String sid) {
-       
+
+    public ArrayList<ScheduleInfo> getStudentInfo(String sid, String cid) {
+        ArrayList<ScheduleInfo> scheduleInfoList = new ArrayList<>();
+
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+
+            String sql = "SELECT s.scheduleid AS MaLichHoc, c.cid AS MaKhoaHoc, s.date AS Date, ts.slotNo AS Slot, r.roomname AS Room, "
+                    + "i.iname AS Lecturer, g.gname AS GroupName, st.status AS AttendanceStatus "
+                    + "FROM Schedule s "
+                    + "INNER JOIN TimeSlots ts ON s.slot = ts.slotNo "
+                    + "INNER JOIN Room r ON s.roomid = r.roomid "
+                    + "INNER JOIN Instructor i ON s.iID = i.iID "
+                    + "INNER JOIN [Group] g ON s.gid = g.gid "
+                    + "INNER JOIN Course c ON g.cid = c.cid "
+                    + "LEFT JOIN Status st ON s.scheduleid = st.scheduleid "
+                    + "WHERE st.sid = ? and c.cid =? ORDER BY s.slot";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, sid);
+            preparedStatement.setString(2, cid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int scheduleId = resultSet.getInt("MaLichHoc");
+
+                int slot = resultSet.getInt("Slot");
+                String room = resultSet.getString("Room");
+                String lecturer = resultSet.getString("Lecturer");
+                String groupName = resultSet.getString("GroupName");
+                String attendanceStatus = resultSet.getString("AttendanceStatus");
+
+                ScheduleInfo scheduleInfo = new ScheduleInfo(scheduleId, slot, room, lecturer, groupName, attendanceStatus);
+                scheduleInfoList.add(scheduleInfo);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return scheduleInfoList;
+    }
+
+    public ArrayList<ScheduleInfo> getScheduleInfo(String sid) {
+
         ArrayList<ScheduleInfo> scheduleInfoList = new ArrayList<>();
 
         try {
@@ -143,17 +198,17 @@ public ArrayList<ScheduleInfo>getScheduleInfo(String sid) {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-           String sql = "SELECT s.scheduleid AS MaLichHoc, s.content AS NoiDungLichHoc, s.date AS NgayHoc, " +
-                    "ts.slotNo AS SlotHoc, st.status AS TrangThai, st.sid AS MaSinhVien " +
-                    "FROM Schedule s " +
-                    "INNER JOIN TimeSlots ts ON s.slot = ts.slotNo " +
-                    "LEFT JOIN Status st ON s.scheduleid = st.scheduleid " +
-                    "INNER JOIN Student std ON st.sid = std.sid " +
-                    "WHERE std.sid = ?";
+            String sql = "SELECT s.scheduleid AS MaLichHoc, s.content AS NoiDungLichHoc, s.date AS NgayHoc, "
+                    + "ts.slotNo AS SlotHoc, st.status AS TrangThai, st.sid AS MaSinhVien "
+                    + "FROM Schedule s "
+                    + "INNER JOIN TimeSlots ts ON s.slot = ts.slotNo "
+                    + "LEFT JOIN Status st ON s.scheduleid = st.scheduleid "
+                    + "INNER JOIN Student std ON st.sid = std.sid "
+                    + "WHERE std.sid = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,sid);
+            preparedStatement.setString(1, sid);
             // Thực hiện truy vấn và lấy kết quả
-          
+
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -173,12 +228,13 @@ public ArrayList<ScheduleInfo>getScheduleInfo(String sid) {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return scheduleInfoList;
     }
+
     public ArrayList<Schedule> getScheduleBySlot(String sid, String startDate, String endDate, int slot) {
         ArrayList<Schedule> scheduleList = new ArrayList<>();
         try {
@@ -236,6 +292,6 @@ public ArrayList<ScheduleInfo>getScheduleInfo(String sid) {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getScheduleInfo("HE153132"));
+        System.out.println(a.getStudentInfo("HE153132", "PRN211"));
     }
 }

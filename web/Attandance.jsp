@@ -112,13 +112,13 @@
                                                 <div id="ctl00_mainContent_divCourse">
                                                     <table>
                                                         <tbody>
-                                                        <c:forEach items="${courselist}" var="var">
-    <tr>
-        <td><b><a href="coursedetail?MaKhoaHoc=${var.MaKhoaHoc}&MaLichHoc=${var.MaLichHoc}">${var.MaKhoaHoc} start (${var.NgayHoc})</a></b></td>
-    </tr>
-                                                        </c:forEach>
+                                                            <c:forEach items="${courselist}" var="var">
+                                                                <tr>
+                                                                    <td><b><a href="coursedetail?MaKhoaHoc=${var.MaKhoaHoc}&MaLichHoc=${var.MaLichHoc}">${var.MaKhoaHoc} start (${var.NgayHoc})</a></b></td>
+                                                                </tr>
+                                                            </c:forEach>
 
-                                                        <!-- Các dòng course khác ở đây -->
+                                                            <!-- Các dòng course khác ở đây -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -130,23 +130,30 @@
                             <td valign="top">
                                 <h3>... then see report<br><br></h3>
                                 <table class="table table-bordered table1">
-                                    <tbody>
-                                        <tr></tr>
-                                    </tbody>
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>Date</th>
+                                          
                                             <th>Slot</th>
                                             <th>Room</th>
                                             <th>Lecturer</th>
                                             <th>Group Name</th>
-                                            <th>Attedance status</th>
-                                            <th>Lecturer's comment</th>
+                                            <th>Attendance Status</th>
+                                        
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Các hàng dữ liệu ở đây -->
+                                        <c:forEach items="${listinfo}" var="var" varStatus="count">
+                                            <tr>
+                                                <td>${count.index + 1}</td>
+                                                <td>${var.getSlot()}</td>
+                                                <td>${var.getRoom()}</td>
+                                                <td>${var.getLecturer()}</td>
+                                                <td>${var.getGroupName()}</td>
+                                                <td>${var.getAttendanceStatus()}</td>
+                                                
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -154,6 +161,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>
+
                             </td>
                         </tr>
                     </tbody>
