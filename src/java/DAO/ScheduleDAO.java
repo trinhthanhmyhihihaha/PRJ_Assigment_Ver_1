@@ -78,6 +78,52 @@ public class ScheduleDAO {
 
         return scheduleList;
     }
+public ArrayList<Schedule> getScheduleByInstructorID(String instructorId, String startDate, String endDate) {
+    ArrayList<Schedule> scheduleList = new ArrayList<>();
+    try {
+        Connection connection = null;
+
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+        // Truy vấn SQL để lấy thông tin lịch học cho giảng viên
+        String sql = "DECLARE @InstructorId NVARCHAR(50) = ?\n"
+                + "DECLARE @WeekStartDate DATE = ?\n"
+                + "DECLARE @WeekEndDate DATE = ?\n"
+                + "\n"
+                + "SELECT s.*\n"
+                + "FROM [dbo].[Schedule] s\n"
+                + "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
+                + "    AND s.[iID] = @InstructorId;";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, instructorId);
+        preparedStatement.setString(2, startDate);
+        preparedStatement.setString(3, endDate);
+
+        // Thực hiện truy vấn và lấy kết quả
+        ResultSet rs = preparedStatement.executeQuery();
+
+        // Xử lý kết quả
+        while (rs.next()) {
+            Schedule s = new Schedule();
+            s.setScheduleid(rs.getInt("scheduleid"));
+            s.setiID(rs.getString("iID"));
+            s.setGid(rs.getString("gid"));
+            s.setRoomid(rs.getString("roomid"));
+            s.setContent(rs.getString("content"));
+            s.setSlot(rs.getInt("slot"));
+            s.setDate(rs.getDate("date"));
+            scheduleList.add(s);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return scheduleList;
+}
 
     public Map<Schedule, String> getScheduleStatus() {
         Map<Schedule, String> scheduleInfoMap = new HashMap<>();
@@ -289,9 +335,70 @@ public class ScheduleDAO {
 
         return scheduleList;
     }
+public ArrayList<Schedule> getScheduleBySlotForInstructor(String id, String startDate, String endDate, int slot, boolean isStudent) {
+    ArrayList<Schedule> scheduleList = new ArrayList<>();
+    try {
+        Connection connection = null;
 
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+        // Truy vấn SQL để lấy thông tin lịch học
+        String sql = "DECLARE @Id NVARCHAR(50) = ?\n"
+                + "DECLARE @WeekStartDate DATE = ?\n"
+                + "DECLARE @WeekEndDate DATE = ?\n"
+                + "\n"
+                + "SELECT s.*, c.[cid] AS 'CourseID'\n"
+                + "FROM [dbo].[Schedule] s\n"
+                + "JOIN [dbo].[Group] g ON s.[gid] = g.[gid]\n"
+                + "JOIN [dbo].[Course] c ON g.[cid] = c.[cid]\n";
+
+        if (isStudent) {
+            // Nếu là sinh viên, thêm điều kiện cho sinh viên
+            sql += "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
+                    + "    AND s.[gid] IN (\n"
+                    + "        SELECT gm.[gid]\n"
+                    + "        FROM [dbo].[Group_member] gm\n"
+                    + "        WHERE gm.[sid] = @Id and s.slot = ?\n"
+                    + "    );";
+        } else {
+            // Nếu là giảng viên, thêm điều kiện cho giảng viên
+            sql += "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
+                    + "    AND s.[iID] = @Id and s.slot = ?;";
+        }
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, id);
+        preparedStatement.setString(2, startDate);
+        preparedStatement.setString(3, endDate);
+        preparedStatement.setInt(4, slot);
+
+        // Thực hiện truy vấn và lấy kết quả
+        ResultSet rs = preparedStatement.executeQuery();
+
+        // Xử lý kết quả
+        while (rs.next()) {
+            Schedule s = new Schedule();
+            s.setScheduleid(rs.getInt("scheduleid"));
+            s.setiID(rs.getString("iID"));
+            s.setGid(rs.getString("gid"));
+            s.setRoomid(rs.getString("roomid"));
+            s.setContent(rs.getString("content"));
+            s.setSlot(rs.getInt("slot"));
+            s.setDate(rs.getDate("date"));
+            s.setCourseid(rs.getString("CourseID"));
+            scheduleList.add(s);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return scheduleList;
+}
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getStudentInfo("HE153132", "PRN211"));
+        System.out.println(a.getScheduleByInstructorID("hailt","2023-01-01","2023-12-12"));
     }
 }

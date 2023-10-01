@@ -4,9 +4,8 @@
  */
 package Controller;
 
-import DAO.InstructorDAO;
-import Models.*;
-import DAO.StudentDAO;
+import DAO.WeekDAO;
+import Time.Week;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,13 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
  * @author myths
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "TimeableforInstructorController", urlPatterns = {"/TimeableforInstructorController"})
+public class TimeableforInstructorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginController</title>");
+            out.println("<title>Servlet TimeableforInstructorController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TimeableforInstructorController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +61,19 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String selectYear = "2023";
+        HttpSession session = request.getSession();
+        String iid = (String) session.getAttribute("sid");
+        System.out.println(selectYear);
+        WeekDAO wd = new WeekDAO();
+
+        ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+        //  ArrayList<Schedule> scheduleList
+//           String day=getDayFromDate(weekList.);
+        // String month=getMonthFromDate(Date.valueOf(selectYear));
+        request.setAttribute("selectYear", selectYear);
+        request.setAttribute("weekList", weekList);
+        request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
     }
 
     /**
@@ -75,33 +87,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            System.out.println(username + " " + password);
-            InstructorDAO b=new InstructorDAO();
-            StudentDAO a = new StudentDAO();
-            Student student = a.getStudentByUsernamePassword(username, password);
-            Instructor instructor= b.getInstructorByUsernamePassword(username, password);
-            if (student != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                session.setAttribute("sid", student.getSid());
-                response.sendRedirect("Timeable.jsp");
-            }else if(b!=null){
-                  HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                session.setAttribute("iid",instructor.getiID());
-                response.sendRedirect("Timeable.jsp");
-            
-            }
-            else {
-                request.setAttribute("fail", "Login failed");
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
     /**

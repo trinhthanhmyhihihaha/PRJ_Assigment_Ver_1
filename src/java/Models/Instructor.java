@@ -21,6 +21,9 @@ public class Instructor {
         return "Instructor{" + "iID=" + iID + ", iname=" + iname + ", iusername=" + iusername + ", ipassword=" + ipassword + ", istatus=" + istatus + ", email=" + email + '}';
     }
 
+    public Instructor() {
+    }
+
     public Instructor(String iID, String iname, String iusername, String ipassword, boolean istatus, String email) {
         this.iID = iID;
         this.iname = iname;
