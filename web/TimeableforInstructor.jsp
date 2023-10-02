@@ -134,7 +134,7 @@
                             <c:choose>
                                 <c:when test="${schedule.date== var.toDate()}"> 
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} </span> at <span class="roomid">${schedule.getRoomid()} (7:30-9:50)</a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} </span> at <span class="roomid">${schedule.getRoomid()} (7:30-9:50)</a></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>
@@ -153,7 +153,7 @@
                             <c:choose>
                                 <c:when test="${schedule.date== var.toDate()}">
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</a></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>
@@ -172,7 +172,7 @@
                             <c:choose>
                                 <c:when test="${schedule.date==var.toDate()}">
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10) </a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10) </a></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>-</td>
@@ -188,7 +188,7 @@
                             <c:choose>
                                 <c:when test="${schedule.date== var.toDate()}">
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} 
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} 
                                             (15:20-17:40) </a></td>
                                         </c:when>
                                         <c:otherwise>

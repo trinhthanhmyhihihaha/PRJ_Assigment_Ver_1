@@ -4,11 +4,8 @@
  */
 package Controller;
 
-import DAO.CourseDAO;
-import DAO.GroupDAO;
 import DAO.StudentDAO;
-import Models.*;
-import Models.Student;
+import Models.Student_Sub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +13,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  *
  * @author myths
  */
-@WebServlet(name = "groupInCourse", urlPatterns = {"/groupInCourse"})
-public class groupInCourse extends HttpServlet {
+@WebServlet(name = "AttandanceCheck", urlPatterns = {"/AttandanceCheck"})
+public class AttandanceCheck extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,15 +37,14 @@ public class groupInCourse extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-         
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet groupInCourse</title>");
+            out.println("<title>Servlet AttandanceCheck</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet groupInCourse at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AttandanceCheck at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,22 +62,7 @@ public class groupInCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          String cid=(String) request.getParameter("cid");
-            System.out.println(cid);
-        CourseDAO cd = new CourseDAO();
-        StudentDAO sd= new StudentDAO();
-        GroupDAO gd=new GroupDAO();
-        ArrayList<Course> listAll = cd.getCourse();
-        ArrayList<Group>listGroup=gd.getGroupByCourseID(cid);
-        ArrayList<Student_Sub>listStudent=sd.getStudentInCourseAndGroup(cid, cid);
-        int totalCourse = cd.getTotalCourse();
-        HttpSession session= request.getSession();
-        session.setAttribute("cid",cid);
-        request.setAttribute("listGroup", listGroup);
-        request.setAttribute("total", totalCourse);
-        request.setAttribute("courselist", listAll);
-        request.setAttribute("cid",cid);
-        request.getRequestDispatcher("GroupInCourse.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -94,7 +76,35 @@ public class groupInCourse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        List<String> sidList = new ArrayList<>();
+        List<String> statusList = new ArrayList<>();
+
+        StudentDAO sd=new StudentDAO();
+        // Lặp qua tất cả các tham số của request
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+
+            // Kiểm tra xem tham số có tên bắt đầu bằng "status_" không
+            if (paramName.startsWith("status_")) {
+                // Nếu có, lấy sid từ tên tham số và giá trị của radio button
+                String sid = paramName.substring("status_".length());
+                String status = request.getParameter(paramName);
+
+                // Thêm sid và status vào danh sách
+                sidList.add(sid);
+                statusList.add(status);
+            }
+        }
+
+        // Sau khi lấy danh sách sid và status, bạn có thể thực hiện các xử lý tiếp theo dựa trên nhu cầu của bạn.
+        // In danh sách sid và status để kiểm tra
+        for (int i = 0; i < sidList.size(); i++) {
+            String sid = sidList.get(i);
+            String status = statusList.get(i);
+            System.out.println("Sinh viên có mã số " + sid + " có trạng thái: " + status);
+        }
+        sd.updateAttandance(sidList,statusList);
     }
 
     /**

@@ -3,12 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
-
+    
+import Models.*;
 import DAO.CourseDAO;
 import DAO.GroupDAO;
 import DAO.StudentDAO;
-import Models.*;
-import Models.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,13 +17,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author myths
  */
-@WebServlet(name = "groupInCourse", urlPatterns = {"/groupInCourse"})
-public class groupInCourse extends HttpServlet {
+@WebServlet(name = "TakeAttandance", urlPatterns = {"/TakeAttandance"})
+public class TakeAttandance extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,15 +40,14 @@ public class groupInCourse extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-         
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet groupInCourse</title>");
+            out.println("<title>Servlet AttandanceController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet groupInCourse at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AttandanceController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,22 +65,30 @@ public class groupInCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          String cid=(String) request.getParameter("cid");
-            System.out.println(cid);
+        HttpSession session =request.getSession();
+       //    String cid=(String) session.getAttribute("cid");
+      String cid = (String) request.getParameter("cid");
+        System.out.println(cid);
+        String gid = (String) request.getParameter("gid");
+        System.out.println(gid);
+
         CourseDAO cd = new CourseDAO();
-        StudentDAO sd= new StudentDAO();
-        GroupDAO gd=new GroupDAO();
+        StudentDAO sd = new StudentDAO();
+        GroupDAO gd = new GroupDAO();
         ArrayList<Course> listAll = cd.getCourse();
-        ArrayList<Group>listGroup=gd.getGroupByCourseID(cid);
-        ArrayList<Student_Sub>listStudent=sd.getStudentInCourseAndGroup(cid, cid);
+        ArrayList<Group> listGroup = gd.getGroupByCourseID(cid);
+       ArrayList<Student_Sub> listStudent=sd.getStudentAndStatus(cid,gid);
+        System.out.println(listStudent);
         int totalCourse = cd.getTotalCourse();
-        HttpSession session= request.getSession();
-        session.setAttribute("cid",cid);
+        if(listStudent==null){
+            request.setAttribute("listStudent", "Not found any student");
+        }
+        request.setAttribute("listStudent", listStudent);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);
         request.setAttribute("courselist", listAll);
-        request.setAttribute("cid",cid);
-        request.getRequestDispatcher("GroupInCourse.jsp").forward(request, response);
+
+        request.getRequestDispatcher("TakeAttandance.jsp").forward(request, response);
     }
 
     /**

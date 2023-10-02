@@ -45,62 +45,36 @@
                 <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>
+     
         <div class="content">
-
-            <h2>Select a course,then a group...</h2>
-            <table  class="table" border="1">
-                <thead class="first-child-tr">
-                    <tr>
-                        <th>CAMPUS</th>
-                        <th>COURSE</th>
-                        <th>GROUP</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dòng 1 -->
-                <td rowspan="${total+1}">FU-HL</td>
-
-                <c:forEach items="${courselist}" var="item">
-                    <tr>
-                        <td><a href="groupInCourse?cid=${item.getCid()}">${item.getCid()}</a></td>
-
-
-                    </tr>
-                </c:forEach>
-                <td rowspan="${total+1}"></td>
-                <td rowspan="${total+1}"></td>
-
-
-                <c:forEach items="${listGroup}" var="var">
-                    <tr > 
-                        <td class="table-row-fix"><a href="listStudentInGroupInCourse?gid=${var.getGid()}&cid=${cid}">${var.getGid()}</a></td>
-                    </tr>
-                </c:forEach>
-
-                </tbody>
-            </table>
-
-            <div class="header-card">
-                <div class="header-line">
-                    <div class="header-text">INDEX</div>
-                    <div class="header-text">IMAGE</div>
-                    <div class="header-text">MEMBER</div>
-                    <div class="header-text">CODE</div>
-                    <div class="header-text">NAME</div>
-
-                </div>
-                <c:forEach items="${listStudent}" varStatus="loop" var="var">
+            <form action="AttandanceCheck" method="post">
+                <div class="header-card">
                     <div class="header-line">
-                        <div class="header-content counter">${loop.count}</div>
-                        <div class="header-content"><img src="css/albert_einstein.jpg" alt="alt"/></div>
-                        <div class="header-content">MEMBER</div>
-                        <div class="header-content">${var.getSid()}</div>
-                        <div class="header-content">${var.getSname()}</div>
-
+                        <div class="header-text">INDEX</div>
+                        <div class="header-text">IMAGE</div>
+                        <div class="header-text">MEMBER</div>
+                        <div class="header-text">CODE</div>
+                        <div class="header-text">NAME</div>
+                        <div class="header-text">STATUS</div>
                     </div>
-                </c:forEach>   
+                    <c:forEach items="${listStudent}" varStatus="loop" var="var">
+                        <div class="header-line">
+                            <div class="header-content counter">${loop.count}</div>
+                            <div class="header-content"><img src="css/albert_einstein.jpg" alt="alt"/></div>
+                            <div class="header-content">MEMBER</div>
+                            <div class="header-content">${var.getSid()}</div>
+                            <div class="header-content">${var.getSname()}</div>
+                            <div class="header-content" style="display:flex">
+                                Absent <input type="radio" name="status_${var.getSid()}" value="absent" required>
+                                Attend <input type="radio" name="status_${var.getSid()}" value="attend" required>
 
-            </div>      
+                            </div>
+                        </div>
+
+                    </c:forEach>   
+                    <button style="margin-left: 90%; padding:30px" type="submit" class="btn btn-default">Apply</button>
+                </div>     
+            </form>
         </div>
     </body>
 </html>

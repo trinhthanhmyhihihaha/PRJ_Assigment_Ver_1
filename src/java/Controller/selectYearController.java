@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,29 +78,39 @@ public class selectYearController extends HttpServlet {
         System.out.println(selectYear);
         WeekDAO wd = new WeekDAO();
         ScheduleDAO sd = new ScheduleDAO();
-        StatusDAO sttd=new StatusDAO();
+        StatusDAO sttd = new StatusDAO();
         ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
 
         String selectedWeek = request.getParameter("selectWeek");
         System.out.println("selectedWeek" + selectedWeek);
         String[] splitedWeek = selectedWeek.split("\\--");
 
-            Map<Schedule,String> maplist=sd.getScheduleStatus();
-        ArrayList<Status>sttlist=sttd.getScheduleBySlot(sid);
+        Map<Schedule, String> maplist = sd.getScheduleStatus();
+        ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
         ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
         ArrayList<Schedule> scheduleList = sd.getScheduleBySID(sid, splitedWeek[0], splitedWeek[1]);
         ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 1);
         ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 2);
         ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 3);
         ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 4);
+        List<Schedule>[] scheduleListBySlot = new ArrayList[13]; // 13 slot từ 0 đến 12
 
-        System.out.println(splitedWeek[0]);
-        System.out.println(splitedWeek[1]);
-        System.out.println(scheduleList + "scueduleList");
-        System.out.println(dayList + "daylist");
-        System.out.println(selectedWeek + "selectedweek");
-        System.out.println(sttlist+"sttlist");
-        
+// Khởi tạo danh sách cho từng slot
+        for (int i = 0; i < 13; i++) {
+            scheduleListBySlot[i] = new ArrayList<>();
+        }
+
+// Sắp xếp các lịch học vào danh sách tương ứng với slot của họ
+        for (Schedule schedule : scheduleList) {
+            int slot = schedule.getSlot();
+            scheduleListBySlot[slot].add(schedule);
+        }
+        System.out.println(scheduleListBySlot[1]+"schedulelistbyslot");
+// Gửi danh sách đã được tổ chức đến trang JSP
+        request.setAttribute("scheduleListBySlot", scheduleListBySlot);
+
+       
+
         request.setAttribute("scheduleMap", maplist);
         request.setAttribute("sttlist", sttlist);
         request.setAttribute("schedulelist1", scheduleListslot1);

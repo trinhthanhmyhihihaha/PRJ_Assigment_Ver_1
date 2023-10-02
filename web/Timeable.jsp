@@ -6,6 +6,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="Models.Schedule" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -128,107 +130,107 @@
                 <!-- Slot 1 -->
                 <tr>
                     <td>Slot 1</td>
-                    <c:forEach items="${schedulelist1}" var="schedule">
-                        <c:forEach items="${daylist}" var="var">
-                            
-                            <c:choose>
-                                <c:when test="${schedule.date== var.toDate()}"> 
-                                    <td style="color: #337ab7;
-                                        text-decoration: none;">${schedule.getCourseid()} </span> at <span class="roomid">${schedule.getRoomid()} (7:30-9:50)</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>-</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                    <c:forEach items="${daylist}" var="day">
+                        <td>
+                            <c:forEach items="${scheduleListBySlot[1]}" var="schedule">
+                                <c:choose>
+                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                        ${schedule.courseid} at ${schedule.roomid}
+                                    </c:when>
+                                    <c:otherwise> - </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </td>
                     </c:forEach>
+
                 </tr>
 
                 <!-- Slot 2 -->
                 <tr>
                     <td>Slot 2</td>
 
-                    <c:forEach items="${schedulelist2}" var="schedule">
-                        <c:forEach items="${daylist}" var="var">
-                            <c:choose>
-                                <c:when test="${schedule.date== var.toDate()}">
-                                    <td style="color: #337ab7;
-                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>-</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                    <c:forEach items="${daylist}" var="day">
+                        <td>
+                            <c:forEach items="${scheduleListBySlot[2]}" var="schedule">
+                                <c:choose>
+                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                        ${schedule.courseid} at ${schedule.roomid}
+                                    </c:when>
+                                    <c:otherwise> - </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </td>
                     </c:forEach>
+
                 </tr>
-
-                <!-- Thêm các Slot khác tương tự -->
-
+                <!-- Slot 1 -->
                 <tr>
                     <td>Slot 3</td>
-                    <c:forEach items="${schedulelist3}" var="schedule">
-                        <c:forEach items="${daylist}" var="var">
-                            <c:choose>
-                                <c:when test="${schedule.date==var.toDate()}">
-                                    <td style="color: #337ab7;
-                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10)</td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td>-</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+
+                    <c:forEach items="${daylist}" var="day">
+                        <td>
+                            <c:forEach items="${scheduleListBySlot[3]}" var="schedule">
+                                <c:choose>
+                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                        ${schedule.courseid} at ${schedule.roomid}
+                                    </c:when>
+                                    <c:otherwise> - </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </td>
                     </c:forEach>
+
                 </tr>
+
+                <!-- Slot 2 -->
                 <tr>
                     <td>Slot 4</td>
-                    <c:forEach items="${schedulelist4}" var="schedule">
-                        <c:forEach items="${daylist}" var="var">
-                            <c:choose>
-                                <c:when test="${schedule.date== var.toDate()}">
-                                    <td style="color: #337ab7;
-                                        text-decoration: none;">${schedule.getCourseid()} at ${schedule.getRoomid()} 
-                                        (15:20-17:40)</td>
+
+                    <c:forEach items="${daylist}" var="day">
+                        <td>
+                            <c:forEach items="${scheduleListBySlot[4]}" var="schedule">
+                                <c:choose>
+                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                        ${schedule.courseid} at ${schedule.roomid}
                                     </c:when>
-                                    <c:otherwise>
-                                    <td>-</td>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                                    <c:otherwise> - </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </td>
                     </c:forEach>
+
                 </tr>
                 <tr>
                     <td>Slot 5</td>
-                
+
                 </tr>
                 <tr>
                     <td>Slot 6</td>
-                   
+
                 </tr>
                 <tr>
                     <td>Slot 7</td>
-                  
+
                 </tr>
                 <tr>
                     <td>Slot 8</td>
-                    
+
                 </tr>
                 <tr>
                     <td>Slot 9</td>
-                    
+
                 </tr>
                 <tr>
                     <td>Slot 10</td>
-            
+
                 </tr>
                 <tr>
                     <td>Slot 11</td>
-                   
+
                 </tr>
                 <tr>
                     <td>Slot 12</td>
-               
+
                 </tr>
             </tbody>
         </table>

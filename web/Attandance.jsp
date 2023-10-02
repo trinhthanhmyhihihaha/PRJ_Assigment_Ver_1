@@ -133,15 +133,17 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                          
+
                                             <th>Slot</th>
                                             <th>Room</th>
                                             <th>Lecturer</th>
                                             <th>Group Name</th>
                                             <th>Attendance Status</th>
-                                        
+
                                         </tr>
                                     </thead>
+                                    <c:set var="absentCount" value="0" />
+
                                     <tbody>
                                         <c:forEach items="${listinfo}" var="var" varStatus="count">
                                             <tr>
@@ -151,14 +153,22 @@
                                                 <td>${var.getLecturer()}</td>
                                                 <td>${var.getGroupName()}</td>
                                                 <td>${var.getAttendanceStatus()}</td>
-                                                
+
                                             </tr>
+                                            <c:if test="${var.getAttendanceStatus() == 'Absent'}">
+                                                <c:set var="absentCount" value="${absentCount + 1}" />
+                                            </c:if>
                                         </c:forEach>
                                     </tbody>
                                     <tfoot>
-                                        <tr>
-                                            <td colspan="7"><b>Absent</b>: 5% absent so far (1 absent on 20 total).</td>
-                                        </tr>
+                                        <c:if test="${not empty listinfo}">
+                                            <tr>
+                                                <td colspan="7">
+                                                    <b>Absent</b>: <c:out value="${(absentCount * 100.0) / listinfo.size()}" />% absent so far 
+                                                    (<c:out value="${absentCount}" /> absent on <c:out value="${listinfo.size()}" /> total).
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                     </tfoot>
                                 </table>
 

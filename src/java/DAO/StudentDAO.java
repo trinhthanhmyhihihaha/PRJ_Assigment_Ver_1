@@ -10,7 +10,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -71,8 +75,8 @@ public class StudentDAO {
         return null;
     }
 
-    public ArrayList<Student> getStudentInCourseAndGroup(String course, String group) {
-        ArrayList<Student> studentList = new ArrayList<>();
+    public ArrayList<Student_Sub> getStudentInCourseAndGroup(String course, String group) {
+        ArrayList<Student_Sub> studentList = new ArrayList<>();
         try {
             Connection connection = null;
 
@@ -80,30 +84,134 @@ public class StudentDAO {
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
             // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "SELECT S.*\n"
-                    + "FROM [dbo].[Student] S\n"
-                    + "JOIN [dbo].[Group_member] GM ON S.[sid] = GM.[sid]\n"
-                    + "JOIN [dbo].[Group] G ON GM.[gid] = G.[gid]\n"
-                    + "JOIN [dbo].[Course] C ON G.[cid] = C.[cid]\n"
-                    + "WHERE C.[cid] = ? AND G.[gname] = ?";
+            String sql = "SELECT\n"
+                    + "    s.sid,s.sname,\n"
+                    + "    MAX(s.sname) AS TenSinhVien,\n"
+                    + "    MAX(st.status) AS TrangThai\n"
+                    + "FROM \n"
+                    + "    Student s\n"
+                    + "INNER JOIN \n"
+                    + "    Group_Member gm ON s.sid = gm.sid\n"
+                    + "INNER JOIN \n"
+                    + "    [Group] g ON gm.gid = g.gid\n"
+                    + "LEFT JOIN \n"
+                    + "    [Status] st ON s.sid = st.sid\n"
+                    + "WHERE \n"
+                    + "    g.gid =?\n"
+                    + "    AND g.cid = ? AND st.status IS NOT NULL\n"
+                    + "GROUP BY\n"
+                    + "    s.sid,s.sname;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, course);
-            preparedStatement.setString(2, group);
+            preparedStatement.setString(1, group);
+            preparedStatement.setString(2, course);
             // Thực hiện truy vấn và lấy kết quả
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Xử lý kết quả
             while (resultSet.next()) {
- 
-                Student student = new Student();
+
+                Student_Sub student = new Student_Sub();
                 student.setSid(resultSet.getString("sid"));
                 student.setSname(resultSet.getString("sname"));
-                student.setSusername(resultSet.getString("susername"));
-                student.setPassword(resultSet.getString("spassword"));
-                student.setStatus(resultSet.getBoolean("sstatus"));
-                student.setImage(resultSet.getBytes("avatar"));
-                student.setRole(resultSet.getInt("role"));
-                student.setDob(resultSet.getDate("dob"));
+                student.setSusername(resultSet.getString("TenSinhVien"));
+
+                student.setCoursestatus(resultSet.getString("TrangThai"));
+                studentList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return studentList;
+    }
+
+    public void updateAttandance(List<String> sidList, List<String> statusList) {
+        try {
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Xây dựng câu lệnh SQL cập nhật
+            try {
+        String updateQuery = "UPDATE [Status] SET status = ? WHERE sid = ?";
+
+        // Prepare the statement
+        preparedStatement = connection.prepareStatement(updateQuery);
+
+        // Iterate through the sidList and statusList to update rows
+        for (int i = 0; i < sidList.size(); i++) {
+            String sid = sidList.get(i);
+            String status = statusList.get(i);
+
+            // Set the parameters
+            preparedStatement.setString(1, status);
+            preparedStatement.setString(2, sid);
+
+            // Execute the update for the current sid and status
+            preparedStatement.executeUpdate();
+        }
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+
+    
+
+    public ArrayList<Student_Sub> getStudentAndStatus(String course, String group) {
+        ArrayList<Student_Sub> studentList = new ArrayList<>();
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT\n"
+                    + "    s.sid,s.sname,\n"
+                    + "    MAX(s.sname) AS TenSinhVien,\n"
+                    + "    MAX(st.status) AS TrangThai\n"
+                    + "FROM \n"
+                    + "    Student s\n"
+                    + "INNER JOIN \n"
+                    + "    Group_Member gm ON s.sid = gm.sid\n"
+                    + "INNER JOIN \n"
+                    + "    [Group] g ON gm.gid = g.gid\n"
+                    + "LEFT JOIN \n"
+                    + "    [Status] st ON s.sid = st.sid\n"
+                    + "WHERE \n"
+                    + "    g.gid =? \n"
+                    + "    AND g.cid = ? AND st.status IS NOT NULL\n"
+                    + "GROUP BY\n"
+                    + "    s.sid,s.sname;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, group);
+            preparedStatement.setString(2, course);
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (resultSet.next()) {
+
+                Student_Sub student = new Student_Sub();
+                student.setSid(resultSet.getString("sid"));
+                student.setSname(resultSet.getString("sname"));
+                student.setSusername(resultSet.getString("TenSinhVien"));
+
+                student.setCoursestatus(resultSet.getString("TrangThai"));
                 studentList.add(student);
             }
         } catch (SQLException e) {
@@ -118,6 +226,6 @@ public class StudentDAO {
 
     public static void main(String[] args) {
         StudentDAO s = new StudentDAO();
-        System.out.println(s.getStudentInCourseAndGroup("PRN211", "SE1701"));
+        System.out.println(s.getStudentInCourseAndGroup("PRN211", "SE1702"));
     }
 }

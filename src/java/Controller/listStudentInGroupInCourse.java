@@ -10,6 +10,7 @@ import DAO.StudentDAO;
 import Models.Course;
 import Models.Group;
 import Models.Student;
+import Models.Student_Sub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -66,8 +67,8 @@ public class listStudentInGroupInCourse extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session =request.getSession();
-           String cid=(String) session.getAttribute("cid");
-    //    String cid = (String) request.getParameter("cid");
+          // String cid=(String) session.getAttribute("cid");
+        String cid = (String) request.getParameter("cid");
         System.out.println(cid);
         String gid = (String) request.getParameter("gid");
         System.out.println(gid);
@@ -77,7 +78,7 @@ public class listStudentInGroupInCourse extends HttpServlet {
         GroupDAO gd = new GroupDAO();
         ArrayList<Course> listAll = cd.getCourse();
         ArrayList<Group> listGroup = gd.getGroupByCourseID(cid);
-        ArrayList<Student> listStudent = sd.getStudentInCourseAndGroup(cid, gid);
+        ArrayList<Student_Sub> listStudent = sd.getStudentInCourseAndGroup(cid, gid);
         System.out.println(listStudent);
         int totalCourse = cd.getTotalCourse();
         if(listStudent==null){

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+
 /**
  *
  * @author myths
@@ -22,33 +23,51 @@ public class Schedule {
     private String roomid;
     private String content;
     private int slot;
-    private Date date;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     private String courseid;
+    private LocalDate date; // Thay đổi kiểu dữ liệu
+
+    private String dayOfWeek; // Thêm trường này
 
     @Override
     public String toString() {
         return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", date=" + date + ", courseid=" + courseid + '}';
     }
 
-    public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, Date date, String courseid) {
+    public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, String courseid, LocalDate date, String dayOfWeek) {
         this.scheduleid = scheduleid;
         this.iID = iID;
         this.gid = gid;
         this.roomid = roomid;
         this.content = content;
         this.slot = slot;
-        this.date = date;
         this.courseid = courseid;
+        this.date = date;
+        this.dayOfWeek = dayOfWeek;
     }
 
-    public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, Date date) {
-        this.scheduleid = scheduleid;
-        this.iID = iID;
-        this.gid = gid;
-        this.roomid = roomid;
-        this.content = content;
-        this.slot = slot;
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     public Schedule() {
@@ -76,14 +95,6 @@ public class Schedule {
 
     public void setSlot(int slot) {
         this.slot = slot;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getCourseid() {
@@ -118,11 +129,4 @@ public class Schedule {
         this.gid = gid;
     }
 
-  public boolean isSameDate(Date otherDate) {
-        LocalDate thisLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate otherLocalDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        return thisLocalDate.equals(otherLocalDate);
-    }
-  
 }
