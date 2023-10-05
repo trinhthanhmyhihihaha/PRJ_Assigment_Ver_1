@@ -134,8 +134,8 @@
                         <td>
                             <c:forEach items="${scheduleListBySlot[1]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day eq schedule.date}">
-                                        ${schedule.courseid} at ${schedule.roomid}
+                                    <c:when test="${day.toDate() eq schedule.date}">
+                                        ${schedule.cid} at ${schedule.roomid}
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
                                 </c:choose>
@@ -153,7 +153,7 @@
                         <td>
                             <c:forEach items="${scheduleListBySlot[2]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
                                         ${schedule.courseid} at ${schedule.roomid}
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
@@ -171,7 +171,7 @@
                         <td>
                             <c:forEach items="${scheduleListBySlot[3]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
                                         ${schedule.courseid} at ${schedule.roomid}
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
@@ -190,7 +190,7 @@
                         <td>
                             <c:forEach items="${scheduleListBySlot[4]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day eq schedule.date}">
+                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
                                         ${schedule.courseid} at ${schedule.roomid}
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>

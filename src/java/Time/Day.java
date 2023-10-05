@@ -5,6 +5,7 @@
 package Time;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -21,10 +22,10 @@ public class Day {
         this.month = month;
         this.day = day;
     }
-  public Date toDate() {
-        String dateString = year + "-" + month + "-" + day;
-        return Date.valueOf(dateString);
-    }
+//  public Date toDate() {
+//        String dateString = year + "-" + month + "-" + day;
+//        return Date.valueOf(dateString);
+//    }
     // Getter cho năm
     public String getYear() {
         return year;
@@ -55,6 +56,9 @@ public class Day {
         this.day = day;
     }
 
+      public LocalDate toDate() {
+        return LocalDate.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
+    }
     @Override
     public String toString() {
         return year + "-" + month + "-" + day;
