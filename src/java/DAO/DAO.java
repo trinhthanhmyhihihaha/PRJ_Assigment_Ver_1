@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * @author myths
  */
 public class DAO {
-      public static void performDatabaseOperations() {
+      public static void performDatabaseOperations() throws ClassNotFoundException {
         // Thông tin kết nối đến cơ sở dữ liệu SQL Server
         String jdbcUrl = "jdbc:sqlserver://localhost:1433;databaseName=Project_Prj_Ver1";
         String username = "sa";
@@ -24,6 +24,8 @@ public class DAO {
           Connection connection = null;
 
         try {
+                        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
             // Kết nối đến cơ sở dữ liệu
             connection = DriverManager.getConnection(jdbcUrl, username, password);
 
@@ -55,7 +57,7 @@ public class DAO {
             }
         }
     }
-      public static void main(String[] args) {
+      public static void main(String[] args) throws ClassNotFoundException {
         DAO a =new DAO();
         a.performDatabaseOperations();
     }

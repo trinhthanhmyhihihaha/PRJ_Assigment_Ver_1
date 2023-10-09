@@ -38,19 +38,25 @@ public class ScheduleDAO {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
-            // Truy vấn SQL để lấy thông tin sinh viên
-            String sql = "DECLARE @StudentId NVARCHAR(50) =?\n"
-                    + "DECLARE @WeekStartDate DATE = ?\n"
-                    + "DECLARE @WeekEndDate DATE = ?\n"
-                    + "\n"
-                    + "SELECT s.*\n"
-                    + "FROM [dbo].[Schedule] s\n"
-                    + "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
-                    + "    AND s.[gid] IN (\n"
-                    + "        SELECT gm.[gid]\n"
-                    + "        FROM [dbo].[Group_member] gm\n"
-                    + "        WHERE gm.[sid] = @StudentId\n"
-                    + "    ); ";
+            // Truy vấn SQL để lấy thông tin sinh viên và trường cid từ bảng Course
+            String sql = "DECLARE @StudentId NVARCHAR(50) = ?\n"
+                    + "DECLARE @WeekStartDate DATE =?\n"
+                    + "DECLARE @WeekEndDate DATE = ?;\n"
+                    + "WITH CTE AS (\n"
+                    + "    SELECT s.*, c.cid AS courseid, g.cid AS group_cid, st.status,\n"
+                    + "           ROW_NUMBER() OVER (PARTITION BY s.scheduleid ORDER BY st.status) AS rn\n"
+                    + "    FROM [dbo].[Schedule] s\n"
+                    + "    JOIN [dbo].[Group] g ON s.gid = g.gid\n"
+                    + "    JOIN [dbo].[Course] c ON g.cid = c.[cid]\n"
+                    + "    LEFT JOIN [dbo].[Status] st ON s.scheduleid = st.scheduleid\n"
+                    + "    WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
+                    + "        AND s.[gid] IN (\n"
+                    + "            SELECT gm.[gid]\n"
+                    + "            FROM [dbo].[Group_member] gm\n"
+                    + "            WHERE gm.[sid] = @StudentId and status IS NOT NULL\n"
+                    + "        )\n"
+                    + ")\n"
+                    + "SELECT * FROM CTE WHERE rn = 1;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, sid);
             preparedStatement.setString(2, startDate);
@@ -71,6 +77,10 @@ public class ScheduleDAO {
                 Date sqlDate = rs.getDate("date");
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
+                s.setStatus(rs.getString("status"));
+                // Lấy trường cid từ kết quả
+                String cid = rs.getString("courseid");
+                s.setCid(cid); // Đặt giá trị cid vào đối tượng Schedule
                 scheduleList.add(s);
             }
         } catch (SQLException e) {
@@ -413,6 +423,6 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getScheduleInfo("HE153132"));
+        System.out.println(a.getScheduleBySID("HE153132", "2023-01-01", "2023-02-02"));
     }
 }

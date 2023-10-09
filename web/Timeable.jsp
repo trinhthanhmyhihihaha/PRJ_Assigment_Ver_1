@@ -135,7 +135,15 @@
                             <c:forEach items="${scheduleListBySlot[1]}" var="schedule">
                                 <c:choose>
                                     <c:when test="${day.toDate() eq schedule.date}">
-                                        ${schedule.cid} at ${schedule.roomid}
+                                        ${schedule.cid} at ${schedule.roomid} (7:30-9:50)
+                                        <c:choose>
+                                            <c:when test="${schedule.status eq 'absent'}">
+                                                <br>        <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>      <span style="color:green;">(Present)</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
                                 </c:choose>
@@ -148,31 +156,44 @@
                 <!-- Slot 2 -->
                 <tr>
                     <td>Slot 2</td>
-
                     <c:forEach items="${daylist}" var="day">
                         <td>
                             <c:forEach items="${scheduleListBySlot[2]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
-                                        ${schedule.courseid} at ${schedule.roomid}
+                                    <c:when test="${day.toDate() eq schedule.date}">
+                                        ${schedule.cid} at ${schedule.roomid} (10:00-12h20)
+                                        <c:choose>
+                                            <c:when test="${schedule.status eq 'absent'}">
+                                                <br>      <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>   <span style="color:green;">(Present)</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </td>
                     </c:forEach>
-
                 </tr>
                 <!-- Slot 1 -->
                 <tr>
                     <td>Slot 3</td>
-
                     <c:forEach items="${daylist}" var="day">
                         <td>
                             <c:forEach items="${scheduleListBySlot[3]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
-                                        ${schedule.courseid} at ${schedule.roomid}
+                                    <c:when test="${day.toDate() eq schedule.date}">
+                                        ${schedule.cid} at ${schedule.roomid} (12:50-15:10)
+                                        <c:choose>
+                                            <c:when test="${schedule.status eq 'absent'}">
+                                                <br>    <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>   <span style="color:green;">(Present)</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
                                 </c:choose>
@@ -185,13 +206,20 @@
                 <!-- Slot 2 -->
                 <tr>
                     <td>Slot 4</td>
-
                     <c:forEach items="${daylist}" var="day">
                         <td>
                             <c:forEach items="${scheduleListBySlot[4]}" var="schedule">
                                 <c:choose>
-                                    <c:when test="${schedule ne null and day.toDate() eq schedule.date}">
-                                        ${schedule.courseid} at ${schedule.roomid}
+                                    <c:when test="${day.toDate() eq schedule.date}">
+                                        ${schedule.cid} at ${schedule.roomid}(15:20-17:40)
+                                        <c:choose>
+                                            <c:when test="${schedule.status eq 'absent'}">
+                                                <br>    <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>  <span style="color:green;">(Present)</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
                                     <c:otherwise> - </c:otherwise>
                                 </c:choose>

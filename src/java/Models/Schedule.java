@@ -45,10 +45,12 @@
 
         private String dayOfWeek; // Thêm trường này
 
-        @Override
-        public String toString() {
-            return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", date=" + date + ", courseid=" + courseid + '}';
-        }
+    @Override
+    public String toString() {
+        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", status=" + status + ", cid=" + cid + ", courseid=" + courseid + ", date=" + date + ", dayOfWeek=" + dayOfWeek + '}';
+    }
+
+  
 
         public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, String courseid, LocalDate date, String dayOfWeek) {
             this.scheduleid = scheduleid;
