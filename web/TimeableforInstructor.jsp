@@ -134,10 +134,20 @@
                             <c:choose>
                                 <c:when test="${schedule.date== var.toDate()}"> 
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} </span> at <span class="roomid">${schedule.getRoomid()} (7:30-9:50)</a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (7:30-9:50)</a>
+                                        <c:choose>
+                                            <c:when test="${schedule.slotTaken eq 'False'}">
+                                                <br>        <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>      <span style="color:green;">(Taken )</span>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>-</td>
+
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -153,10 +163,20 @@
                             <c:choose>
                                 <c:when test="${schedule.date== var.toDate()}">
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (10:00-12:20)</a>
+
+                                        <c:choose>
+                                            <c:when test="${schedule.slotTaken eq 'False'}">
+                                                <br>        <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>      <span style="color:green;">(Taken)</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>-</td>
+
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -172,31 +192,57 @@
                             <c:choose>
                                 <c:when test="${schedule.date==var.toDate()}">
                                     <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10) </a></td>
+                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (12:50-15:10) </a>
+                                        <c:choose>
+                                            <c:when test="${schedule.slotTaken eq 'False'}">
+                                                <br>        <span style="color:red;">(Absent)</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <br>      <span style="color:green;">(Taken)</span>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>-</td>
+
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </c:forEach>
                 </tr>
+
                 <tr>
                     <td>Slot 4</td>
                     <c:forEach items="${schedulelist4}" var="schedule">
                         <c:forEach items="${daylist}" var="var">
                             <c:choose>
-                                <c:when test="${schedule.date== var.toDate()}">
-                                    <td style="color: #337ab7;
-                                        text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} 
-                                            (15:20-17:40) </a></td>
+                                <c:when test="${var.toDate() eq schedule.date}">                              
+                                    <c:choose>
+                                        <c:when test="${schedule.date== var.toDate()}">
+                                            <td style="color: #337ab7;
+                                                text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (15:20-17:40) </a>
+                                                <c:choose>
+                                                    <c:when test="${schedule.slotTaken eq 'False'}">
+                                                        <br>        <span style="color:red;">(Absent)</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <br>      <span style="color:green;">(Taken)</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </td>
+
                                         </c:when>
                                         <c:otherwise>
-                                    <td>-</td>
-                                </c:otherwise>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
+                                <c:otherwise>  </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </c:forEach>
+
                 </tr>
                 <tr>
                     <td>Slot 5</td>

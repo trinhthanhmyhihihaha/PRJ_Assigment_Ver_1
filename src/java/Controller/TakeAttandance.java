@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
-    
+
 import Models.*;
 import DAO.CourseDAO;
 import DAO.GroupDAO;
@@ -44,7 +44,7 @@ public class TakeAttandance extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AttandanceController</title>");            
+            out.println("<title>Servlet AttandanceController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AttandanceController at " + request.getContextPath() + "</h1>");
@@ -65,24 +65,26 @@ public class TakeAttandance extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session =request.getSession();
-       //    String cid=(String) session.getAttribute("cid");
-      String cid = (String) request.getParameter("cid");
+        HttpSession session = request.getSession();
+        //    String cid=(String) session.getAttribute("cid");
+        String cid = (String) request.getParameter("cid");
         System.out.println(cid);
         String gid = (String) request.getParameter("gid");
         System.out.println(gid);
-
+        String scheduleid = (String) request.getParameter("scheduleid");
+        System.out.println(scheduleid + "schedulei");
         CourseDAO cd = new CourseDAO();
         StudentDAO sd = new StudentDAO();
         GroupDAO gd = new GroupDAO();
         ArrayList<Course> listAll = cd.getCourse();
         ArrayList<Group> listGroup = gd.getGroupByCourseID(cid);
-       ArrayList<Student_Sub> listStudent=sd.getStudentAndStatus(cid,gid);
+        ArrayList<Student_Sub> listStudent = sd.getStudentAndStatus(cid, gid);
         System.out.println(listStudent);
         int totalCourse = cd.getTotalCourse();
-        if(listStudent==null){
+        if (listStudent == null) {
             request.setAttribute("listStudent", "Not found any student");
         }
+        request.setAttribute("scheduleid", scheduleid);
         request.setAttribute("listStudent", listStudent);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);

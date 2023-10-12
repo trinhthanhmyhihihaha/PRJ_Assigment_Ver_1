@@ -70,7 +70,7 @@ public class selectYearForInstructor extends HttpServlet {
               String selectYear = "2023";
         HttpSession session = request.getSession();
         //String sid=(String)session.getAttribute("sid");
-        String sid = "hailt";
+        String sid = "sonnt5";
 
         System.out.println(selectYear);
         WeekDAO wd = new WeekDAO();

@@ -128,48 +128,54 @@ public class StudentDAO {
         return studentList;
     }
 
-    public void updateAttandance(List<String> sidList, List<String> statusList) {
+    public void updateAttendance(List<String> sidList, List<String> statusList, String scheduleid) {
         try {
             Connection connection = null;
-            PreparedStatement preparedStatement = null;
+            PreparedStatement statusPreparedStatement = null;
+            PreparedStatement schedulePreparedStatement = null;
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 
-            // Xây dựng câu lệnh SQL cập nhật
-            try {
-        String updateQuery = "UPDATE [Status] SET status = ? WHERE sid = ?";
+            // Xây dựng câu lệnh SQL cập nhật cho [Status]
+            String updateStatusQuery = "UPDATE [Status] SET status = ? WHERE sid = ? and scheduleid = ?";
+            statusPreparedStatement = connection.prepareStatement(updateStatusQuery);
 
-        // Prepare the statement
-        preparedStatement = connection.prepareStatement(updateQuery);
+            // Xây dựng câu lệnh SQL cập nhật cho [Schedule]
+            String updateScheduleQuery = "UPDATE [Schedule] SET slotTaken = 1 WHERE scheduleid = ?";
+            schedulePreparedStatement = connection.prepareStatement(updateScheduleQuery);
+            System.out.println(sidList+"sid líst");
+            // Iterate through the sidList and statusList to update rows in [Status]
+            for (int i = 0; i < sidList.size(); i++) {
+                String sid = sidList.get(i);
+                String status = statusList.get(i);
 
-        // Iterate through the sidList and statusList to update rows
-        for (int i = 0; i < sidList.size(); i++) {
-            String sid = sidList.get(i);
-            String status = statusList.get(i);
-
-            // Set the parameters
-            preparedStatement.setString(1, status);
-            preparedStatement.setString(2, sid);
-
-            // Execute the update for the current sid and status
-            preparedStatement.executeUpdate();
-        }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                // Set the parameters for [Status]
+                statusPreparedStatement.setString(1, status);
+                statusPreparedStatement.setString(2, sid);
+                statusPreparedStatement.setString(3, scheduleid);
+                // Execute the update for the current sid and status in [Status]
+                statusPreparedStatement.executeUpdate();
             }
+
+            // Set the parameter for [Schedule]
+            schedulePreparedStatement.setString(1, scheduleid);
+
+            // Execute the update for [Schedule]
+           
+            int updatedRows = schedulePreparedStatement.executeUpdate();
+            if (updatedRows > 0) {
+                System.out.println("Successfully updated Schedule.");
+            } else {
+                System.out.println("No rows updated in Schedule.");
+            }
+
+            System.out.println("Successfully updated");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-
-    
 
     public ArrayList<Student_Sub> getStudentAndStatus(String course, String group) {
         ArrayList<Student_Sub> studentList = new ArrayList<>();

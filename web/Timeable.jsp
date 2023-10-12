@@ -145,7 +145,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
-                                    <c:otherwise> - </c:otherwise>
+                                    <c:otherwise>  </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </td>
@@ -171,7 +171,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
-                                    <c:otherwise> - </c:otherwise>
+                                    <c:otherwise>  </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </td>
@@ -195,7 +195,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
-                                    <c:otherwise> - </c:otherwise>
+                                    <c:otherwise> </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </td>
@@ -221,7 +221,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
-                                    <c:otherwise> - </c:otherwise>
+                                    <c:otherwise> </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                         </td>
@@ -262,6 +262,8 @@
                 </tr>
             </tbody>
         </table>
-
+        <form action="selectYear" method="post">
+            <button type="submit">Trở về tuần học hiện tại</button>
+        </form>
     </body>
 </html>

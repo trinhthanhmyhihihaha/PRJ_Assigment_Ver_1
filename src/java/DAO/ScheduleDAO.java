@@ -78,6 +78,8 @@ public class ScheduleDAO {
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
                 s.setStatus(rs.getString("status"));
+                s.setSlotNo(rs.getInt("slotNo"));
+                s.setSlotTaken(rs.getBoolean("slotTaken"));
                 // Lấy trường cid từ kết quả
                 String cid = rs.getString("courseid");
                 s.setCid(cid); // Đặt giá trị cid vào đối tượng Schedule
@@ -128,6 +130,8 @@ public class ScheduleDAO {
                 s.setRoomid(rs.getString("roomid"));
                 s.setContent(rs.getString("content"));
                 s.setSlot(rs.getInt("slot"));
+                s.setSlotNo(rs.getInt("SlotNo"));
+                s.setSlotTaken(rs.getBoolean("slotTaken"));
                 Date sqlDate = rs.getDate("date");
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
@@ -159,6 +163,8 @@ public class ScheduleDAO {
                     + "    S.content,\n"
                     + "    S.slot,\n"
                     + "    S.date,\n"
+                    + "    S.slotNo,\n"
+                    + " S.slotTaken,\n"
                     + "    C.cid AS courseId,\n"
                     + "    ST.status\n"
                     + "FROM\n"
@@ -186,6 +192,8 @@ public class ScheduleDAO {
                 schedule.setGid(rs.getString("gid"));
                 schedule.setiID(rs.getString("iID"));
                 schedule.setSlot(rs.getInt("slot"));
+                schedule.setSlotNo(rs.getInt("slotNo"));
+                schedule.setSlotTaken(rs.getBoolean("slotTaken"));
                 String courseStatus = rs.getString("status");
                 scheduleInfoMap.put(schedule, courseStatus);
 
@@ -310,18 +318,19 @@ public class ScheduleDAO {
             // Truy vấn SQL để lấy thông tin sinh viên
             String sql = "DECLARE @StudentId NVARCHAR(50) = ?\n"
                     + "DECLARE @WeekStartDate DATE = ?\n"
-                    + "DECLARE @WeekEndDate DATE = ?\n"
+                    + "DECLARE @WeekEndDate DATE = ?;\n"
                     + "\n"
                     + "SELECT s.*, c.[cid] AS 'CourseID'\n"
                     + "FROM [dbo].[Schedule] s\n"
                     + "JOIN [dbo].[Group] g ON s.[gid] = g.[gid]\n"
                     + "JOIN [dbo].[Course] c ON g.[cid] = c.[cid]\n"
+                    + "JOIN [dbo].[TimeSlots] ts ON s.slotNo = ts.[slotNo] \n"
                     + "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
                     + "    AND s.[gid] IN (\n"
                     + "        SELECT gm.[gid]\n"
                     + "        FROM [dbo].[Group_member] gm\n"
-                    + "        WHERE gm.[sid] = @StudentId and slot=?\n"
-                    + "    );";
+                    + "        WHERE gm.[sid] = @StudentId\n"
+                    + "    ) AND ts.[slotNo]=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, sid);
             preparedStatement.setString(2, startDate);
@@ -344,6 +353,8 @@ public class ScheduleDAO {
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
                 s.setCourseid(rs.getString("CourseID"));
+                s.setSlotNo(rs.getInt("slotNo"));
+                s.setSlotTaken(rs.getBoolean("slotTaken"));
                 scheduleList.add(s);
             }
         } catch (SQLException e) {
@@ -385,7 +396,7 @@ public class ScheduleDAO {
             } else {
                 // Nếu là giảng viên, thêm điều kiện cho giảng viên
                 sql += "WHERE s.[date] BETWEEN @WeekStartDate AND @WeekEndDate\n"
-                        + "    AND s.[iID] = @Id and s.slot = ?;";
+                        + "    AND s.[iID] = @Id and s.slotNo = ?;";
             }
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -410,6 +421,8 @@ public class ScheduleDAO {
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
                 s.setCourseid(rs.getString("CourseID"));
+                s.setSlotNo(rs.getInt("slotNo"));
+                s.setSlotTaken(rs.getBoolean("slotTaken"));
                 scheduleList.add(s);
             }
         } catch (SQLException e) {
@@ -423,6 +436,6 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getScheduleBySID("HE153132", "2023-01-01", "2023-02-02"));
+        System.out.println(a.getScheduleBySlotForInstructor("sonnt5", "2023-08-01", "2023-08-30", 1, false));
     }
 }

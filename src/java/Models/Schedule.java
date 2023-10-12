@@ -25,7 +25,24 @@
         private int slot;
         private String status;
         private String cid;
+        private int slotNo;
+        private boolean slotTaken;
 
+    public boolean isSlotTaken() {
+        return slotTaken;
+    }
+
+    public void setSlotTaken(boolean slotTaken) {
+        this.slotTaken = slotTaken;
+    }
+        
+    public int getSlotNo() {
+        return slotNo;
+    }
+
+    public void setSlotNo(int slotNo) {
+        this.slotNo = slotNo;
+    }
     public String getCid() {
         return cid;
     }
@@ -47,10 +64,13 @@
 
     @Override
     public String toString() {
-        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", status=" + status + ", cid=" + cid + ", courseid=" + courseid + ", date=" + date + ", dayOfWeek=" + dayOfWeek + '}';
+        
+        return "Schedule{" + "scheduleid=" + scheduleid + ", iID=" + iID + ", gid=" + gid + ", roomid=" + roomid + ", content=" + content + ", slot=" + slot + ", status=" + status + ", cid=" + cid + ", slotNo=" + slotNo + ", slotTaken=" + slotTaken + ", courseid=" + courseid + ", date=" + date + ", dayOfWeek=" + dayOfWeek + '}';
     }
 
-  
+   
+
+
 
         public Schedule(int scheduleid, String iID, String gid, String roomid, String content, int slot, String courseid, LocalDate date, String dayOfWeek) {
             this.scheduleid = scheduleid;

@@ -73,7 +73,7 @@ public class selectYearController extends HttpServlet {
         String selectYear = "2023";
         HttpSession session = request.getSession();
         //String sid=(String)session.getAttribute("sid");
-        String sid = "HE153132";
+        String sid = "HE150000";
 
         System.out.println(selectYear);
         WeekDAO wd = new WeekDAO();
@@ -93,23 +93,21 @@ public class selectYearController extends HttpServlet {
         ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 2);
         ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 3);
         ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 4);
-        List<Schedule>[] scheduleListBySlot = new ArrayList[13]; // 13 slot từ 0 đến 12
+        List<Schedule>[] scheduleListBySlot = new ArrayList[100]; // 13 slot từ 0 đến 12
 
 // Khởi tạo danh sách cho từng slot
-        for (int i = 0; i < 13; i++) {
+        for (int i = 1; i <= 4; i++) {
             scheduleListBySlot[i] = new ArrayList<>();
         }
 
 // Sắp xếp các lịch học vào danh sách tương ứng với slot của họ
         for (Schedule schedule : scheduleList) {
-            int slot = schedule.getSlot();
+            int slot = schedule.getSlotNo();
             scheduleListBySlot[slot].add(schedule);
         }
-        System.out.println(scheduleListBySlot[1]+"schedulelistbyslot");
+        System.out.println(scheduleListBySlot[1] + "schedulelistbyslot");
 // Gửi danh sách đã được tổ chức đến trang JSP
         request.setAttribute("scheduleListBySlot", scheduleListBySlot);
-
-       
 
         request.setAttribute("scheduleMap", maplist);
         request.setAttribute("sttlist", sttlist);

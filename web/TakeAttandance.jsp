@@ -17,7 +17,6 @@
         <link rel="stylesheet" href="css/css_3.css">
     </head>
     <body>
-
         <div class="header">
             <div class="header-left">
                 <h1 >FPT University Academic Portal</h1>
@@ -45,9 +44,11 @@
                 <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>
-     
+
         <div class="content">
             <form action="AttandanceCheck" method="post">
+                <input type="hidden" name="scheduleid" value="${scheduleid}">
+
                 <div class="header-card">
                     <div class="header-line">
                         <div class="header-text">INDEX</div>
@@ -65,8 +66,8 @@
                             <div class="header-content">${var.getSid()}</div>
                             <div class="header-content">${var.getSname()}</div>
                             <div class="header-content" style="display:flex">
-                                Absent <input type="radio" name="status_${var.getSid()}" value="absent" required>
-                                Attend <input type="radio" name="status_${var.getSid()}" value="attend" required>
+                                Absent <input type="radio" name="status_${var.getSid()}" value="Absent" required>
+                                Attend <input type="radio" name="status_${var.getSid()}" value="Present" required>
 
                             </div>
                         </div>

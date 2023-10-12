@@ -78,7 +78,8 @@ public class AttandanceCheck extends HttpServlet {
             throws ServletException, IOException {
         List<String> sidList = new ArrayList<>();
         List<String> statusList = new ArrayList<>();
-
+        String scheduleid=(String)request.getParameter("scheduleid");
+        System.out.println("schedule id"+scheduleid);
         StudentDAO sd=new StudentDAO();
         // Lặp qua tất cả các tham số của request
         Enumeration<String> parameterNames = request.getParameterNames();
@@ -104,7 +105,8 @@ public class AttandanceCheck extends HttpServlet {
             String status = statusList.get(i);
             System.out.println("Sinh viên có mã số " + sid + " có trạng thái: " + status);
         }
-        sd.updateAttandance(sidList,statusList);
+        sd.updateAttendance(sidList,statusList,scheduleid);
+        response.sendRedirect("TimeableforInstructorController");
     }
 
     /**

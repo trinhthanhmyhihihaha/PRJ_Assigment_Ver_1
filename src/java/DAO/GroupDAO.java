@@ -46,7 +46,7 @@ public class GroupDAO {
                 Course courseF=new Course();
                 courseF.setCid(rs.getString("cid"));
                 courseF.setCname(rs.getString("cname"));
-              courseF.setSemester(Integer.parseInt(rs.getString("semester")));
+              courseF.setSemester(Integer.parseInt(rs.getString("semester_id")));
               courseF.setGroup(groupList);
               courseList.add(courseF);
                
