@@ -58,6 +58,48 @@ public class CourseDAO {
 
         return courseList;
     }
+      public ArrayList<Course> getCourseByIID(String iid) {
+        ArrayList<Course> courseList = new ArrayList<>();
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT Course.*\n" +
+"FROM Course\n" +
+"WHERE cid IN (\n" +
+"    SELECT cid\n" +
+"    FROM [Group]\n" +
+"    WHERE gid IN (\n" +
+"        SELECT gid\n" +
+"        FROM Schedule\n" +
+"        WHERE iID = ?\n" +
+"    )\n" +
+");";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,iid);
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+                Course c = new Course();
+                c.setCid(rs.getString("cid"));
+           
+                courseList.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return courseList;
+    }
+
 
     public int getTotalCourse() {
         int count = 0;
@@ -275,6 +317,6 @@ public class CourseDAO {
 
     public static void main(String[] args) {
         CourseDAO a = new CourseDAO();
-        System.out.println(a.getAllCourseOfStudent("HE153132"));
+        System.out.println(a.getCourseByIID("hailt"));
     }
 }

@@ -21,7 +21,8 @@ public class GroupDAO {
     private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=Project_Prj_Ver1";
     private static final String JDBC_USER = "sa";
     private static final String JDBC_PASSWORD = "123";
-  public ArrayList<Group> getGroupByCourseID(String cid) {
+
+    public ArrayList<Group> getGroupByCourseID(String cid) {
         ArrayList<Course> courseList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
         try {
@@ -33,23 +34,23 @@ public class GroupDAO {
             // Truy vấn SQL để lấy thông tin sinh viên
             String sql = "SELECT * FROM [Group] g inner join Course c on g.cid=c.cid where g.cid=? ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cid);
+            preparedStatement.setString(1, cid);
             // Thực hiện truy vấn và lấy kết quả
             ResultSet rs = preparedStatement.executeQuery();
 
             // Xử lý kết quả
             while (rs.next()) {
-             Group grp=new Group();
+                Group grp = new Group();
                 grp.setGid(rs.getString("gid"));
                 grp.setGname(rs.getString("gname"));
                 groupList.add(grp);
-                Course courseF=new Course();
+                Course courseF = new Course();
                 courseF.setCid(rs.getString("cid"));
                 courseF.setCname(rs.getString("cname"));
-              courseF.setSemester(Integer.parseInt(rs.getString("semester_id")));
-              courseF.setGroup(groupList);
-              courseList.add(courseF);
-               
+                courseF.setSemester(Integer.parseInt(rs.getString("semester_id")));
+                courseF.setGroup(groupList);
+                courseList.add(courseF);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,6 +61,53 @@ public class GroupDAO {
 
         return groupList;
     }
+
+    public ArrayList<Group> getGroupByCourseIDAndIID(String cid, String iid) {
+        ArrayList<Course> courseList = new ArrayList<>();
+        ArrayList<Group> groupList = new ArrayList<>();
+        try {
+            Connection connection = null;
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Truy vấn SQL để lấy thông tin sinh viên
+            String sql = "SELECT DISTINCT g.*, c.*, i.*\n"
+                    + "FROM [Group] g\n"
+                    + "INNER JOIN Course c ON g.cid = c.cid\n"
+                    + "INNER JOIN Schedule s ON g.gid = s.gid\n"
+                    + "INNER JOIN Instructor i ON s.iID = i.iID\n"
+                    + "WHERE g.cid = ? and i.iID=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cid);
+            preparedStatement.setString(2, iid);
+            // Thực hiện truy vấn và lấy kết quả
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+                Group grp = new Group();
+                grp.setGid(rs.getString("gid"));
+                grp.setGname(rs.getString("gname"));
+                groupList.add(grp);
+                Course courseF = new Course();
+                courseF.setCid(rs.getString("cid"));
+                courseF.setCname(rs.getString("cname"));
+                courseF.setSemester(Integer.parseInt(rs.getString("semester_id")));
+                courseF.setGroup(groupList);
+                courseList.add(courseF);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+
+        return groupList;
+    }
+
     public ArrayList<Group> getListStudentByGroup(String groupName) {
         ArrayList<Group> group = new ArrayList<>();
         ArrayList<Student> studentList = new ArrayList<>();
@@ -104,6 +152,6 @@ public class GroupDAO {
 
     public static void main(String[] args) {
         GroupDAO a = new GroupDAO();
-        System.out.println(a.getListStudentByGroup("SE1701"));
+        System.out.println(a. getGroupByCourseIDAndIID("LAB211","sonnt5"));
     }
 }

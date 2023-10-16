@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package Controller;
+
 import Models.*;
 import DAO.CourseDAO;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class GroupController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GroupController</title>");            
+            out.println("<title>Servlet GroupController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GroupController at " + request.getContextPath() + "</h1>");
@@ -60,17 +61,18 @@ public class GroupController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session =request.getSession();
-       String cid=(String) session.getAttribute("cid");
-               // String cid=request.getParameter("cid");
-             CourseDAO cd=new CourseDAO();
-     
-             ArrayList<Course>listAll=cd.getCourse();
-             int totalCourse=cd.getTotalCourse();
-             request.setAttribute("total",totalCourse);
-             request.setAttribute("courselist", listAll);
-         
-             request.getRequestDispatcher("Group.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String cid = (String) session.getAttribute("cid");
+        String iid = "sonnt5";
+        // String cid=request.getParameter("cid");
+        CourseDAO cd = new CourseDAO();
+        
+        ArrayList<Course> listAll = cd.getCourseByIID(iid);
+        int totalCourse = cd.getTotalCourse();
+        request.setAttribute("total", totalCourse);
+        request.setAttribute("courselist", listAll);
+        
+        request.getRequestDispatcher("Group.jsp").forward(request, response);
     }
 
     /**

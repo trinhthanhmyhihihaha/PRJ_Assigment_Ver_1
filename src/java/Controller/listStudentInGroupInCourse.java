@@ -66,9 +66,10 @@ public class listStudentInGroupInCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session =request.getSession();
-          // String cid=(String) session.getAttribute("cid");
+        HttpSession session = request.getSession();
+        // String cid=(String) session.getAttribute("cid");
         String cid = (String) request.getParameter("cid");
+        String iid = "sonnt5";
         System.out.println(cid);
         String gid = (String) request.getParameter("gid");
         System.out.println(gid);
@@ -76,12 +77,12 @@ public class listStudentInGroupInCourse extends HttpServlet {
         CourseDAO cd = new CourseDAO();
         StudentDAO sd = new StudentDAO();
         GroupDAO gd = new GroupDAO();
-        ArrayList<Course> listAll = cd.getCourse();
-        ArrayList<Group> listGroup = gd.getGroupByCourseID(cid);
+        ArrayList<Course> listAll = cd.getCourseByIID(iid);
+        ArrayList<Group> listGroup = gd.getGroupByCourseIDAndIID(cid, iid);
         ArrayList<Student_Sub> listStudent = sd.getStudentInCourseAndGroup(cid, gid);
         System.out.println(listStudent);
         int totalCourse = cd.getTotalCourse();
-        if(listStudent==null){
+        if (listStudent == null) {
             request.setAttribute("listStudent", "Not found any student");
         }
         request.setAttribute("listStudent", listStudent);

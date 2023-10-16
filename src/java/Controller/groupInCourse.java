@@ -66,15 +66,17 @@ public class groupInCourse extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
           String cid=(String) request.getParameter("cid");
+          String iid="sonnt5";
             System.out.println(cid);
         CourseDAO cd = new CourseDAO();
         StudentDAO sd= new StudentDAO();
         GroupDAO gd=new GroupDAO();
-        ArrayList<Course> listAll = cd.getCourse();
-        ArrayList<Group>listGroup=gd.getGroupByCourseID(cid);
+        ArrayList<Course> listAll = cd.getCourseByIID(iid);
+        ArrayList<Group>listGroup=gd.getGroupByCourseIDAndIID(cid, iid);
         ArrayList<Student_Sub>listStudent=sd.getStudentInCourseAndGroup(cid, cid);
         int totalCourse = cd.getTotalCourse();
         HttpSession session= request.getSession();
+        System.out.println("listALl"+listAll);
         session.setAttribute("cid",cid);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);

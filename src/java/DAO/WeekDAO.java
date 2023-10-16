@@ -167,6 +167,6 @@ public class WeekDAO {
 
     public static void main(String[] args) {
         WeekDAO w = new WeekDAO();
-        System.out.println(w.getAllDayInWeek("2023-03-10", "2023-03-30"));
+        System.out.println(w.getAllWeek());
     }
 }

@@ -76,7 +76,11 @@
                 <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>
-
+                <div>
+                    <form name="backToCurrentWeek" action="backToCurrentWeek" method="post">
+                        <button type="submit" >Trở lại tuần học hiện tại  </button>
+                    </form>
+                </div>
         <table>
             <thead>
                 <tr>

@@ -67,8 +67,8 @@
 
                     </tr>
                 </c:forEach>
-                <td rowspan="${total+1}"></td>
-                <td rowspan="${total+1}"></td>
+                <td rowspan="${total+3}"></td>
+                <td rowspan="${total+3}"></td>
 
 
                 <c:forEach items="${listGroup}" var="var">
