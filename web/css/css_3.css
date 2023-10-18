@@ -61,9 +61,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     border-top: 1px solid #ddd;
 }
 .header-text{
-    width:100%;
-    text-align: left;
-    padding: 2px;
+    width:2%;
     text-transform: uppercase;
     height:auto;
     background-color: #6b90da;
@@ -78,6 +76,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background-color: #fff;
     margin-top: 20px;
 }
+/* Áp dụng cho hàng đầu tiên của bảng */
+table tr:first-child th {
+    flex: 1;
+    padding: 2px;
+    text-transform: uppercase;
+    background-color: #6b90da;
+    margin-top: 20px;
+}
+
 .header-line{
     display:flex;
 

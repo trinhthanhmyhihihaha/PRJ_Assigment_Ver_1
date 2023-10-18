@@ -95,6 +95,209 @@ public class ScheduleDAO {
         return scheduleList;
     }
 
+    public ArrayList<AttendanceRecord> getAttendanceData(String cid, String iid) {
+        ArrayList<AttendanceRecord> attendanceData = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Kết nối đến cơ sở dữ liệu
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Viết câu lệnh SQL để truy vấn dữ liệu điểm danh
+            String sql = "SELECT\n"
+                    + "    S.sid AS StudentID,\n"
+                    + "    S.sname AS StudentName,\n"
+                    + "    C.cid AS CourseID,\n"
+                    + "    C.cname AS CourseName,\n"
+                    + "    St.status AS AttendanceStatus,\n"
+                    + "    Sch.slotNo AS Slot,\n"
+                    + "    Sch.date AS ClassDate\n"
+                    + "FROM Student S\n"
+                    + "INNER JOIN Status St ON S.sid = St.sid\n"
+                    + "INNER JOIN Schedule Sch ON St.scheduleid = Sch.scheduleid\n"
+                    + "INNER JOIN [Group] G ON Sch.gid = G.gid\n"
+                    + "INNER JOIN Course C ON G.cid = C.cid\n"
+                    + "INNER JOIN Instructor I ON Sch.iID = I.iID\n"
+                    + "WHERE C.cid = ?\n"
+                    + "  AND I.iID = ?; ";
+
+            // Tạo PreparedStatement và thực hiện truy vấn SQL
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cid);
+            stmt.setString(2, iid);
+            rs = stmt.executeQuery();
+
+            // Xử lý kết quả truy vấn và tạo đối tượng AttendanceRecord
+            while (rs.next()) {
+                AttendanceRecord a = new AttendanceRecord();
+                String studentID = rs.getString("StudentID");
+                String studentName = rs.getString("StudentName");
+                Date date = rs.getDate("ClassDate");
+                String courseId = rs.getString("CourseID");
+                String attandancestatus = rs.getString("AttendanceStatus");
+                String slotNo = rs.getString("Slot");
+                a.setStudentName(studentName);
+                a.setAttandanceStatus(attandancestatus);
+                a.setClassDate(date);
+                a.setCourseId(courseId);
+                a.setStudentID(studentID);
+                attendanceData.add(a);
+            }
+            return attendanceData;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return attendanceData;
+    }
+
+    public ArrayList<AttendanceRecord> getTimeData(String cid, String iid) {
+        ArrayList<AttendanceRecord> attendanceData = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Kết nối đến cơ sở dữ liệu
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Viết câu lệnh SQL để truy vấn dữ liệu điểm danh
+            String sql = "SELECT s.date as ClassDate\n"
+                    + "FROM Schedule AS s\n"
+                    + "INNER JOIN TimeSlots AS ts ON s.slotNo = ts.slotNo\n"
+                    + "WHERE s.gid = (SELECT gid FROM [Group] WHERE cid = ?)\n"
+                    + "  AND s.iID =? ; ";
+
+            // Tạo PreparedStatement và thực hiện truy vấn SQL
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cid);
+            stmt.setString(2, iid);
+            rs = stmt.executeQuery();
+
+            // Xử lý kết quả truy vấn và tạo đối tượng AttendanceRecord
+            while (rs.next()) {
+                AttendanceRecord a = new AttendanceRecord();
+                a.setDate(rs.getDate("ClassDate"));
+                attendanceData.add(a);
+            }
+            return attendanceData;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return attendanceData;
+    }
+
+    public ArrayList<AttendanceRecord> getStudentList(String cid, String iid) {
+        ArrayList<AttendanceRecord> attendanceData = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Kết nối đến cơ sở dữ liệu
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Viết câu lệnh SQL để truy vấn dữ liệu điểm danh
+            String sql = "SELECT DISTINCT\n"
+                    + "    S.sid AS StudentID,\n"
+                    + "    S.sname AS StudentName,\n"
+                    + "    G.cid AS CourseID,\n"
+                    + "    C.cname AS CourseName\n"
+                    + "FROM Student S\n"
+                    + "INNER JOIN Status St ON S.sid = St.sid\n"
+                    + "INNER JOIN Schedule Sch ON St.scheduleid = Sch.scheduleid\n"
+                    + "INNER JOIN [Group] G ON Sch.gid = G.gid\n"
+                    + "INNER JOIN Course C ON G.cid = C.cid\n"
+                    + "INNER JOIN Instructor I ON Sch.iID = I.iID\n"
+                    + "WHERE C.cid =?\n"
+                    + "  AND I.iID =?;";
+
+            // Tạo PreparedStatement và thực hiện truy vấn SQL
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cid);
+            stmt.setString(2, iid);
+            rs = stmt.executeQuery();
+
+            // Xử lý kết quả truy vấn và tạo đối tượng AttendanceRecord
+            while (rs.next()) {
+                AttendanceRecord a = new AttendanceRecord();
+                String studentID = rs.getString("StudentID");
+                String studentName = rs.getString("StudentName");
+
+                String courseId = rs.getString("CourseID");
+                a.setCourseId(courseId);
+                a.setStudentID(studentID);
+                a.setStudentName(studentName);
+                attendanceData.add(a);
+            }
+            return attendanceData;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return attendanceData;
+    }
+
     public ArrayList<Schedule> getScheduleByInstructorID(String instructorId, String startDate, String endDate) {
         ArrayList<Schedule> scheduleList = new ArrayList<>();
         try {
@@ -436,6 +639,6 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getScheduleBySlotForInstructor("sonnt5", "2023-08-01", "2023-08-30", 1, false));
+        System.out.println(a.getTimeData("SWE201c", "sonnt5"));
     }
 }

@@ -6,7 +6,9 @@ package Controller;
 
 import DAO.CourseDAO;
 import DAO.GroupDAO;
+import DAO.ScheduleDAO;
 import DAO.StudentDAO;
+import Models.AttendanceRecord;
 import Models.Course;
 import Models.Group;
 import Models.Student;
@@ -70,22 +72,29 @@ public class listStudentInGroupInCourse extends HttpServlet {
         // String cid=(String) session.getAttribute("cid");
         String cid = (String) request.getParameter("cid");
         String iid = "sonnt5";
-        System.out.println(cid);
         String gid = (String) request.getParameter("gid");
-        System.out.println(gid);
-        System.out.println(cid);
+
         CourseDAO cd = new CourseDAO();
+        ScheduleDAO scd = new ScheduleDAO();
         StudentDAO sd = new StudentDAO();
         GroupDAO gd = new GroupDAO();
+
+        ArrayList<AttendanceRecord> timeList = scd.getTimeData(cid, iid);
+
+        ArrayList<AttendanceRecord> studentList = scd.getStudentList(cid, iid);
+        ArrayList<AttendanceRecord> attendanceData = scd.getAttendanceData(cid, iid);
+        request.setAttribute("attendanceData", attendanceData);
+
         ArrayList<Course> listAll = cd.getCourseByIID(iid);
         ArrayList<Group> listGroup = gd.getGroupByCourseIDAndIID(cid, iid);
+        System.out.println("attandanceData" + attendanceData);
         ArrayList<Student_Sub> listStudent = sd.getStudentInCourseAndGroup(cid, gid);
-        System.out.println(listStudent);
         int totalCourse = cd.getTotalCourse();
         if (listStudent == null) {
             request.setAttribute("listStudent", "Not found any student");
         }
-        request.setAttribute("listStudent", listStudent);
+          request.setAttribute("listTime", timeList);
+        request.setAttribute("listStudent", studentList);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);
         request.setAttribute("courselist", listAll);

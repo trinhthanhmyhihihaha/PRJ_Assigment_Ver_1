@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/css_3.css">
     </head>
     <body>
-
+        <input type="hidden" name="iid" value="${iid}">
         <div class="header">
             <div class="header-left">
                 <h1 >FPT University Academic Portal</h1>
@@ -77,30 +77,69 @@
                     </tr>
                 </c:forEach>
 
+
                 </tbody>
             </table>
 
-            <div class="header-card">
-                <div class="header-line">
-                    <div class="header-text">INDEX</div>
-                    <div class="header-text">IMAGE</div>
-                    <div class="header-text">MEMBER</div>
-                    <div class="header-text">CODE</div>
-                    <div class="header-text">NAME</div>
 
-                </div>
-                <c:forEach items="${listStudent}" varStatus="loop" var="var">
-                    <div class="header-line">
-                        <div class="header-content counter">${loop.count}</div>
-                        <div class="header-content"><img src="css/albert_einstein.jpg" alt="alt"/></div>
-                        <div class="header-content">MEMBER</div>
-                        <div class="header-content">${var.getSid()}</div>
-                        <div class="header-content">${var.getSname()}</div>
 
-                    </div>
-                </c:forEach>   
 
-            </div>      
+
+            <h1>Attendance Table</h1>
+            <table>
+                <tr>
+                    <th class="header-text" >Mã SV</th>
+                    <th class="header-text">Tên SV</th>
+                    <th class="header-text">% Vắng</th>       
+                        <c:forEach var="record" items="${listTime}">
+                        <th class="header-text" style="text-align: center;">${record.getFormattedClassDate()}</th>
+                        </c:forEach>
+
+
+
+                </tr>
+                <c:forEach var="record" items="${listStudent}">
+                    <tr  >
+                        <td>${record.getStudentID()}</td>
+                        <td>${record.getStudentName()}</td>
+                        <td>
+                            <c:set var="absentCount" value="0" />
+                            <c:forEach items="${attendanceData}" var="item">
+                                <c:choose>
+                                    <c:when test="${item.getStudentID() == record.getStudentID() && item.getAttandanceStatus() eq 'Absent'}">
+                                        <c:set var="absentCount" value="${absentCount + 1}" />
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+                            <c:set var="attendancePercentage" value="${absentCount * 5}" />
+                            <c:out value="${attendancePercentage}" />%
+                        </td>
+                        <c:forEach items="${attendanceData}" var="item">
+                            <c:choose>
+                                <c:when test="${item.getStudentID() == record.getStudentID()}">
+                                    <c:choose>
+                                        <c:when test="${item.getAttandanceStatus() eq 'Absent'}">
+                                            <td style="color:red;text-align: center;">A</td>
+                                        </c:when>
+                                        <c:when test="${item.getAttandanceStatus() eq 'Present'}">
+                                            <td style="color:green;text-align: center;">P</td>
+                                        </c:when>
+                                        <c:when test="${item.getAttandanceStatus() eq 'Present'}">
+                                            <td style="color:black;text-align: center;">-</td>
+                                        </c:when>
+                                    </c:choose>
+
+                                </c:when>
+                                <c:otherwise>
+                                    <!--  <td>...</td> <!-- Giá trị mặc định nếu không tìm thấy comment --> 
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+
+            </table>
+
         </div>
     </body>
 </html>

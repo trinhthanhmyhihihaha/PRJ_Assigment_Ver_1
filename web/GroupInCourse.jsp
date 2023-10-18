@@ -73,7 +73,7 @@
                
                 <c:forEach items="${listGroup}" var="var">
                     <tr > 
-                        <td class="table-row-fix"><a href="listStudentInGroupInCourse?gid=${var.getGid()}&cid=${cid}">${var.getGid()}</a></td>
+                        <td class="table-row-fix"><a href="listStudentInGroupInCourse?gid=${var.getGid()}&cid=${cid}&iid=${iid}">${var.getGid()}</a></td>
                     </tr>
                 </c:forEach>
 

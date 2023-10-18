@@ -39,7 +39,7 @@ public class groupInCourse extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-         
+
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -65,23 +65,26 @@ public class groupInCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          String cid=(String) request.getParameter("cid");
-          String iid="sonnt5";
-            System.out.println(cid);
+        String cid = (String) request.getParameter("cid");
+        String iid = "sonnt5";
+        System.out.println(cid);
         CourseDAO cd = new CourseDAO();
-        StudentDAO sd= new StudentDAO();
-        GroupDAO gd=new GroupDAO();
+        StudentDAO sd = new StudentDAO();
+        GroupDAO gd = new GroupDAO();
         ArrayList<Course> listAll = cd.getCourseByIID(iid);
-        ArrayList<Group>listGroup=gd.getGroupByCourseIDAndIID(cid, iid);
-        ArrayList<Student_Sub>listStudent=sd.getStudentInCourseAndGroup(cid, cid);
+        ArrayList<Group> listGroup = gd.getGroupByCourseIDAndIID(cid, iid);
+        ArrayList<Student_Sub> listStudent = sd.getStudentInCourseAndGroup(cid, cid);
         int totalCourse = cd.getTotalCourse();
-        HttpSession session= request.getSession();
-        System.out.println("listALl"+listAll);
-        session.setAttribute("cid",cid);
+        HttpSession session = request.getSession();
+        System.out.println("listALl" + listAll);
+
+        session.setAttribute("cid", cid);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);
+        request.setAttribute("iid", iid);
+
         request.setAttribute("courselist", listAll);
-        request.setAttribute("cid",cid);
+        request.setAttribute("cid", cid);
         request.getRequestDispatcher("GroupInCourse.jsp").forward(request, response);
     }
 
