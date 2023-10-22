@@ -71,7 +71,11 @@ public class listStudentInGroupInCourse extends HttpServlet {
         HttpSession session = request.getSession();
         // String cid=(String) session.getAttribute("cid");
         String cid = (String) request.getParameter("cid");
-        String iid = "sonnt5";
+        String iid = (String) session.getAttribute("iid");
+        String sid = (String) session.getAttribute("sid");
+        if (iid == null) {
+            response.sendRedirect("Login.jsp");
+        }else{
         String gid = (String) request.getParameter("gid");
 
         CourseDAO cd = new CourseDAO();
@@ -81,6 +85,7 @@ public class listStudentInGroupInCourse extends HttpServlet {
 
         ArrayList<AttendanceRecord> timeList = scd.getTimeData(cid, iid);
 
+        ArrayList<AttendanceRecord> studentAndStatusList=scd.getAttendanceAndStudentData(cid, iid);
         ArrayList<AttendanceRecord> studentList = scd.getStudentList(cid, iid);
         ArrayList<AttendanceRecord> attendanceData = scd.getAttendanceData(cid, iid);
         request.setAttribute("attendanceData", attendanceData);
@@ -93,7 +98,8 @@ public class listStudentInGroupInCourse extends HttpServlet {
         if (listStudent == null) {
             request.setAttribute("listStudent", "Not found any student");
         }
-          request.setAttribute("listTime", timeList);
+        request.setAttribute("studentAndStatusList",studentAndStatusList);
+        request.setAttribute("listTime", timeList);
         request.setAttribute("listStudent", studentList);
         request.setAttribute("listGroup", listGroup);
         request.setAttribute("total", totalCourse);
@@ -101,7 +107,7 @@ public class listStudentInGroupInCourse extends HttpServlet {
 
         request.getRequestDispatcher("listStudentInGroupInCourse.jsp").forward(request, response);
     }
-
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *

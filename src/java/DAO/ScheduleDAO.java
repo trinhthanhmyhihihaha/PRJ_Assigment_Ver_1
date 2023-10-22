@@ -171,6 +171,78 @@ public class ScheduleDAO {
 
         return attendanceData;
     }
+    
+    public ArrayList<AttendanceRecord> getAttendanceAndStudentData(String cid, String iid) {
+        ArrayList<AttendanceRecord> attendanceData = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Kết nối đến cơ sở dữ liệu
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Viết câu lệnh SQL để truy vấn dữ liệu điểm danh
+            String sql = "SELECT\n" +
+"    S.sid AS StudentID,\n" +
+"    S.sname AS StudentName,\n" +
+"    C.cid AS CourseID,\n" +
+"    C.cname AS CourseName,\n" +
+"    SUM(CASE WHEN St.status = 'Absent' THEN 1 ELSE 0 END) * 100 / COUNT(St.status) AS AttendancePercentage\n" +
+"FROM Student S\n" +
+"INNER JOIN Status St ON S.sid = St.sid\n" +
+"INNER JOIN Schedule Sch ON St.scheduleid = Sch.scheduleid\n" +
+"INNER JOIN [Group] G ON Sch.gid = G.gid\n" +
+"INNER JOIN Course C ON G.cid = C.cid\n" +
+"INNER JOIN Instructor I ON Sch.iID = I.iID\n" +
+"WHERE C.cid = ?\n" +
+"  AND I.iID = ?\n" +
+"GROUP BY S.sid, S.sname, C.cid, C.cname; ";
+
+            // Tạo PreparedStatement và thực hiện truy vấn SQL
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cid);
+            stmt.setString(2, iid);
+            rs = stmt.executeQuery();
+
+            // Xử lý kết quả truy vấn và tạo đối tượng AttendanceRecord
+            while (rs.next()) {
+                AttendanceRecord a = new AttendanceRecord();
+                String studentID = rs.getString("StudentID");
+                String studentName = rs.getString("StudentName");
+                String courseId = rs.getString("CourseID");
+                a.setStudentName(studentName);
+                a.setCourseId(courseId);
+                a.setAttendancePercentage(rs.getDouble("AttendancePercentage"));
+                a.setStudentID(studentID);
+                attendanceData.add(a);
+            }
+            return attendanceData;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return attendanceData;
+    }
 
     public ArrayList<AttendanceRecord> getTimeData(String cid, String iid) {
         ArrayList<AttendanceRecord> attendanceData = new ArrayList<>();
@@ -639,6 +711,6 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
         ScheduleDAO a = new ScheduleDAO();
-        System.out.println(a.getTimeData("SWE201c", "sonnt5"));
+        System.out.println(a.getAttendanceAndStudentData("SWE201c","sonnt5"));
     }
 }

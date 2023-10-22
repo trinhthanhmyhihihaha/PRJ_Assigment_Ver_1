@@ -65,14 +65,12 @@
         </div>
         <div class="space">
             <div class="space-left">
-                <a class="space-content" href="Group">Group  </a>
-                <a  class="space-content" href="Mark">Mark report   </a>
-                <a class="space-content" href="Attandance">Attandance   </a>
+                <a class="space-content" href="group">Check Attandance   </a>
                 <text>View schedule </text>
             </div>
             <div class="space-right">
-                <a class="space-content-right" href="mssv"><div class="btn btn-default">1234${mssv}</div> </a>
-                <a class="space-content-right" href="Logout"><div class="btn btn-default">Logout </div></a>
+                <a class="space-content-right" href="mssv"><div class="btn btn-default">Sonnt5</div> </a>
+                <a class="space-content-right" href="LogoutController"><div class="btn btn-default">Logout </div></a>
                 <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>

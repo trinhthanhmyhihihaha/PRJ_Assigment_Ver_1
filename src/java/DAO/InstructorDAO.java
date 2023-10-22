@@ -69,6 +69,6 @@ public class InstructorDAO {
     }
     public static void main(String[] args) throws ClassNotFoundException {
         InstructorDAO a=new InstructorDAO();
-        System.out.println(a.getInstructorByUsernamePassword("hailt@fpt.edu.vn","123"));
+        System.out.println(a.getInstructorByUsernamePassword("sonnt5@fpt.edu.vn","123"));
     }
 }

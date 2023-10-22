@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -76,6 +77,12 @@ public class AttandanceCheck extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+           HttpSession session = request.getSession();
+         String iid=(String)session.getAttribute("iid");
+         if(iid.equals("")){
+             response.sendRedirect("Login.jsp");
+             
+         }else{
         List<String> sidList = new ArrayList<>();
         List<String> statusList = new ArrayList<>();
         String scheduleid=(String)request.getParameter("scheduleid");
@@ -108,7 +115,7 @@ public class AttandanceCheck extends HttpServlet {
         sd.updateAttendance(sidList,statusList,scheduleid);
         response.sendRedirect("TimeableforInstructorController");
     }
-
+    }
     /**
      * Returns a short description of the servlet.
      *

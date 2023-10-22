@@ -34,18 +34,10 @@ public class TimeableforInstructorController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TimeableforInstructorController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TimeableforInstructorController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        String iid = (String) session.getAttribute("iid");
+        if(iid==null){
+            response.sendRedirect("Login.jsp");
         }
     }
 
@@ -63,7 +55,11 @@ public class TimeableforInstructorController extends HttpServlet {
             throws ServletException, IOException {
         String selectYear = "2023";
         HttpSession session = request.getSession();
-        String iid = (String) session.getAttribute("sid");
+        String iid = (String) session.getAttribute("iid");
+        System.out.println("iid"+iid);
+        if(iid==null){
+            response.sendRedirect("Login.jsp");
+        }else{
         System.out.println(selectYear);
         WeekDAO wd = new WeekDAO();
 
@@ -75,7 +71,7 @@ public class TimeableforInstructorController extends HttpServlet {
         request.setAttribute("weekList", weekList);
         request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
     }
-
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *

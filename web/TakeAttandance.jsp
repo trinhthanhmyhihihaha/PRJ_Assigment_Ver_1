@@ -39,8 +39,8 @@
                 <text>Group </text>
             </div>
             <div class="space-right">
-                <a class="space-content-right" href="mssv"><div class="btn btn-default">1234${mssv}</div> </a>
-                <a class="space-content-right" href="Logout"><div class="btn btn-default">Logout </div></a>
+                <a class="space-content-right" href="mssv"><div class="btn btn-default">Sonnt5</div> </a>
+                <a class="space-content-right" href="LogoutController"><div class="btn btn-default">Logout </div></a>
                 <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>

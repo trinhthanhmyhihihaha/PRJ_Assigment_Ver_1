@@ -82,67 +82,71 @@ public class backToCurrentWeek extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date currentDate = new Date(System.currentTimeMillis());
-        String selectYear = "2023";
-        System.out.println(currentDate + "Current Date");
-        WeekDAO wd = new WeekDAO();
-        ArrayList<Week> weekStorage = wd.getAllWeek();
-        Week getWeek = null;
-        java.sql.Date currentWeek = java.sql.Date.valueOf("2023-10-15"); // Đây là ngày hiện tại
-        boolean isInWeek = false;
-
-        for (Week week : weekStorage) {
-            if (currentWeek.compareTo(week.getStartWeek()) >= 0 && currentWeek.compareTo(week.getEndWeek()) <= 0) {
-                // Ngày hiện tại nằm trong khoảng thời gian của tuần này
-                isInWeek = true;
-                getWeek = week;
-                break; // Thoát vòng lặp khi tìm thấy tuần hiện tại
-            }
-        }
-
-        if (isInWeek) {
-            // Ngày hiện tại nằm trong tuần nào đó trong danh sách weekList
-            // Thực hiện các hành động cần thiết ở đây
-            System.out.println("Ngày hiện tại nằm trong một tuần trong danh sách weekList.");
-            System.out.println("getWeek" + getWeek);
-            HttpSession session = request.getSession();
-            //String sid=(String)session.getAttribute("sid");
-            String sid = "sonnt5";
-            ScheduleDAO sd = new ScheduleDAO();
-            StatusDAO sttd = new StatusDAO();
-            ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
-
-            Map<Schedule, String> maplist = sd.getScheduleStatus();
-            ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
-            ArrayList<Day> dayList = wd.getAllDayInWeek(getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString());
-            ArrayList<Schedule> scheduleList = sd.getScheduleByInstructorID(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString());
-            ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 1, false);
-            ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 2, false);
-            ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 3, false);
-            ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 4, false);
-
-            
-            System.out.println(scheduleList + "scueduleList");
-            System.out.println(dayList + "daylist");
-  
-            System.out.println(sttlist + "sttlist");
-
-            request.setAttribute("scheduleMap", maplist);
-            request.setAttribute("sttlist", sttlist);
-            request.setAttribute("schedulelist1", scheduleListslot1);
-            request.setAttribute("schedulelist2", scheduleListslot2);
-            request.setAttribute("schedulelist3", scheduleListslot3);
-            request.setAttribute("schedulelist4", scheduleListslot4);
-            request.setAttribute("schedulelist", scheduleList);
-
-            request.setAttribute("daylist", dayList);
-            request.setAttribute("weekList", weekList);
-            request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String iid = (String) session.getAttribute("iid");
+        String sid = (String) session.getAttribute("sid");
+        if (iid == null ) {
+            response.sendRedirect("Login.jsp");
         } else {
-            // Ngày hiện tại không nằm trong khoảng thời gian của bất kỳ tuần nào trong danh sách weekList
-            System.out.println("Không tìm thấy tuần hiện tại.");
-        }
 
+            Date currentDate = new Date(System.currentTimeMillis());
+            String selectYear = "2023";
+            System.out.println(currentDate + "Current Date");
+            WeekDAO wd = new WeekDAO();
+            ArrayList<Week> weekStorage = wd.getAllWeek();
+            Week getWeek = null;
+            java.sql.Date currentWeek = java.sql.Date.valueOf("2023-10-15"); // Đây là ngày hiện tại
+            boolean isInWeek = false;
+
+            for (Week week : weekStorage) {
+                if (currentWeek.compareTo(week.getStartWeek()) >= 0 && currentWeek.compareTo(week.getEndWeek()) <= 0) {
+                    // Ngày hiện tại nằm trong khoảng thời gian của tuần này
+                    isInWeek = true;
+                    getWeek = week;
+                    break; // Thoát vòng lặp khi tìm thấy tuần hiện tại
+                }
+            }
+
+            if (isInWeek) {
+                // Ngày hiện tại nằm trong tuần nào đó trong danh sách weekList
+                // Thực hiện các hành động cần thiết ở đây
+                System.out.println("Ngày hiện tại nằm trong một tuần trong danh sách weekList.");
+                System.out.println("getWeek" + getWeek);            //String sid=(String)session.getAttribute("sid");
+                ScheduleDAO sd = new ScheduleDAO();
+                StatusDAO sttd = new StatusDAO();
+                ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+
+                Map<Schedule, String> maplist = sd.getScheduleStatus();
+                ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
+                ArrayList<Day> dayList = wd.getAllDayInWeek(getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString());
+                ArrayList<Schedule> scheduleList = sd.getScheduleByInstructorID(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString());
+                ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 1, false);
+                ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 2, false);
+                ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 3, false);
+                ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlotForInstructor(sid, getWeek.getStartWeek().toString(), getWeek.getEndWeek().toString(), 4, false);
+
+                System.out.println(scheduleList + "scueduleList");
+                System.out.println(dayList + "daylist");
+
+                System.out.println(sttlist + "sttlist");
+
+                request.setAttribute("scheduleMap", maplist);
+                request.setAttribute("sttlist", sttlist);
+                request.setAttribute("schedulelist1", scheduleListslot1);
+                request.setAttribute("schedulelist2", scheduleListslot2);
+                request.setAttribute("schedulelist3", scheduleListslot3);
+                request.setAttribute("schedulelist4", scheduleListslot4);
+                request.setAttribute("schedulelist", scheduleList);
+
+                request.setAttribute("daylist", dayList);
+                request.setAttribute("weekList", weekList);
+                request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
+            } else {
+                // Ngày hiện tại không nằm trong khoảng thời gian của bất kỳ tuần nào trong danh sách weekList
+                System.out.println("Không tìm thấy tuần hiện tại.");
+            }
+
+        }
     }
 
     /**

@@ -73,54 +73,58 @@ public class selectYearController extends HttpServlet {
         String selectYear = "2023";
         HttpSession session = request.getSession();
         //String sid=(String)session.getAttribute("sid");
-        String sid = "HE150000";
+        String iid = (String) session.getAttribute("iid");
+        String sid = (String) session.getAttribute("sid");
+        if ( sid == null) {
+            response.sendRedirect("Login.jsp");
+        } else {
+            System.out.println(selectYear);
+            WeekDAO wd = new WeekDAO();
+            ScheduleDAO sd = new ScheduleDAO();
+            StatusDAO sttd = new StatusDAO();
+            ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
 
-        System.out.println(selectYear);
-        WeekDAO wd = new WeekDAO();
-        ScheduleDAO sd = new ScheduleDAO();
-        StatusDAO sttd = new StatusDAO();
-        ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+            String selectedWeek = request.getParameter("selectWeek");
+            System.out.println("selectedWeek" + selectedWeek);
+            String[] splitedWeek = selectedWeek.split("\\--");
 
-        String selectedWeek = request.getParameter("selectWeek");
-        System.out.println("selectedWeek" + selectedWeek);
-        String[] splitedWeek = selectedWeek.split("\\--");
-
-        Map<Schedule, String> maplist = sd.getScheduleStatus();
-        ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
-        ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
-        ArrayList<Schedule> scheduleList = sd.getScheduleBySID(sid, splitedWeek[0], splitedWeek[1]);
-        ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 1);
-        ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 2);
-        ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 3);
-        ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 4);
-        List<Schedule>[] scheduleListBySlot = new ArrayList[100]; // 13 slot từ 0 đến 12
+            Map<Schedule, String> maplist = sd.getScheduleStatus();
+            ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
+            ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
+            ArrayList<Schedule> scheduleList = sd.getScheduleBySID(sid, splitedWeek[0], splitedWeek[1]);
+            ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 1);
+            ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 2);
+            ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 3);
+            ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlot(sid, splitedWeek[0], splitedWeek[1], 4);
+            List<Schedule>[] scheduleListBySlot = new ArrayList[100]; // 13 slot từ 0 đến 12
 
 // Khởi tạo danh sách cho từng slot
-        for (int i = 1; i <= 4; i++) {
-            scheduleListBySlot[i] = new ArrayList<>();
-        }
+            for (int i = 1; i <= 4; i++) {
+                scheduleListBySlot[i] = new ArrayList<>();
+            }
 
 // Sắp xếp các lịch học vào danh sách tương ứng với slot của họ
-        for (Schedule schedule : scheduleList) {
-            int slot = schedule.getSlotNo();
-            scheduleListBySlot[slot].add(schedule);
-        }
-        System.out.println(scheduleListBySlot[1] + "schedulelistbyslot");
+            for (Schedule schedule : scheduleList) {
+                int slot = schedule.getSlotNo();
+                scheduleListBySlot[slot].add(schedule);
+            }
+            System.out.println(scheduleListBySlot[1] + "schedulelistbyslot");
 // Gửi danh sách đã được tổ chức đến trang JSP
-        request.setAttribute("scheduleListBySlot", scheduleListBySlot);
+            request.setAttribute("scheduleListBySlot", scheduleListBySlot);
 
-        request.setAttribute("scheduleMap", maplist);
-        request.setAttribute("sttlist", sttlist);
-        request.setAttribute("schedulelist1", scheduleListslot1);
-        request.setAttribute("schedulelist2", scheduleListslot2);
-        request.setAttribute("schedulelist3", scheduleListslot3);
-        request.setAttribute("schedulelist4", scheduleListslot4);
-        request.setAttribute("schedulelist", scheduleList);
-        request.setAttribute("selectYear", selectYear);
-        request.setAttribute("daylist", dayList);
-        request.setAttribute("weekList", weekList);
-        request.getRequestDispatcher("Timeable.jsp").forward(request, response);
+            request.setAttribute("scheduleMap", maplist);
+            request.setAttribute("sttlist", sttlist);
+            request.setAttribute("schedulelist1", scheduleListslot1);
+            request.setAttribute("schedulelist2", scheduleListslot2);
+            request.setAttribute("schedulelist3", scheduleListslot3);
+            request.setAttribute("schedulelist4", scheduleListslot4);
+            request.setAttribute("schedulelist", scheduleList);
+            request.setAttribute("selectYear", selectYear);
+            request.setAttribute("daylist", dayList);
+            request.setAttribute("weekList", weekList);
+            request.getRequestDispatcher("Timeable.jsp").forward(request, response);
 
+        }
     }
 
     /**

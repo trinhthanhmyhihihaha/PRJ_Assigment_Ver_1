@@ -65,8 +65,13 @@ public class groupInCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session= request.getSession();
         String cid = (String) request.getParameter("cid");
-        String iid = "sonnt5";
+           String iid = (String) session.getAttribute("iid");
+         String sid=(String)session.getAttribute("sid");
+        if(iid==null){
+            response.sendRedirect("Login.jsp");
+        }else{
         System.out.println(cid);
         CourseDAO cd = new CourseDAO();
         StudentDAO sd = new StudentDAO();
@@ -75,7 +80,6 @@ public class groupInCourse extends HttpServlet {
         ArrayList<Group> listGroup = gd.getGroupByCourseIDAndIID(cid, iid);
         ArrayList<Student_Sub> listStudent = sd.getStudentInCourseAndGroup(cid, cid);
         int totalCourse = cd.getTotalCourse();
-        HttpSession session = request.getSession();
         System.out.println("listALl" + listAll);
 
         session.setAttribute("cid", cid);
@@ -87,7 +91,7 @@ public class groupInCourse extends HttpServlet {
         request.setAttribute("cid", cid);
         request.getRequestDispatcher("GroupInCourse.jsp").forward(request, response);
     }
-
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *

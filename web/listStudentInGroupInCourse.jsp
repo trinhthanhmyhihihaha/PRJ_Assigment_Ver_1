@@ -34,15 +34,14 @@
         </div>
         <div class="space">
             <div class="space-left">
-                <a class="space-content" href="Schedule">View schedule  </a>
-                <a  class="space-content" href="Mark">Mark report   </a>
-                <a class="space-content" href="Attandance">Attandance   </a>
-                <text>Group </text>
+                <a class="space-content" href="TimeableforInstructorController">Timeable</a>
+                <text>Attandance </text>
+            
             </div>
             <div class="space-right">
-                <a class="space-content-right" href="mssv"><div class="btn btn-default">1234${mssv}</div> </a>
-                <a class="space-content-right" href="Logout"><div class="btn btn-default">Logout </div></a>
-                <a class="space-content-right" href="Logout"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
+                <a class="space-content-right" href="mssv"><div class="btn btn-default">Sonnt5</div> </a>
+                <a class="space-content-right" href="LogoutController"><div class="btn btn-default">Logout </div></a>
+                <a class="space-content-right" href="#"><div class="btn btn-default">CAMPUS:HOA LAC</div></a>
             </div>
         </div>
         <div class="content">
@@ -86,6 +85,13 @@
 
 
             <h1>Attendance Table</h1>
+            <span>Chú thích:
+                <span>Chưa vắng buổi nào <div class="square-0"> </div> 
+                    <br></span>Vắng 1 buổi <div class="square-1"></div></span>
+            <span>Vắng 2 buổi <div class="square-2"> </div></span>
+            <span>Vắng 3 buổi <div class="square-3"> </div></span>
+            <span>Vắng 4 buổi<div class="square-4"> </div> </span>
+            <span>Cook <div class="square-5"> </div> </span>
             <table>
                 <tr>
                     <th class="header-text" >Mã SV</th>
@@ -98,22 +104,40 @@
 
 
                 </tr>
-                <c:forEach var="record" items="${listStudent}">
-                    <tr  >
-                        <td>${record.getStudentID()}</td>
-                        <td>${record.getStudentName()}</td>
-                        <td>
-                            <c:set var="absentCount" value="0" />
-                            <c:forEach items="${attendanceData}" var="item">
-                                <c:choose>
-                                    <c:when test="${item.getStudentID() == record.getStudentID() && item.getAttandanceStatus() eq 'Absent'}">
-                                        <c:set var="absentCount" value="${absentCount + 1}" />
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
-                            <c:set var="attendancePercentage" value="${absentCount * 5}" />
-                            <c:out value="${attendancePercentage}" />%
-                        </td>
+                <c:forEach var="record" items="${studentAndStatusList}">
+                    <tr>
+                        <c:choose>
+                            <c:when test="${record.getAttendancePercentage()==0}">
+                                <td class="square-0">${record.getStudentID()}</td>
+                                <td class="square-0">${record.getStudentName()}</td>
+                                <td class="square-0">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                            <c:when test="${record.getAttendancePercentage()==5}">
+                                <td class="square-1">${record.getStudentID()}</td>
+                                <td class="square-1" >${record.getStudentName()}</td>
+                                <td class="square-1">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                            <c:when test="${record.getAttendancePercentage()==10}">
+                                <td class="square-2">${record.getStudentID()}</td>
+                                <td class="square-2">${record.getStudentName()}</td>
+                                <td class="square-2">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                            <c:when test="${record.getAttendancePercentage()==15}">
+                                <td class="square-3">${record.getStudentID()}</td>
+                                <td class="square-3">${record.getStudentName()}</td>
+                                <td class="square-3">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                            <c:when test="${record.getAttendancePercentage()==20}">
+                                <td class="square-4">${record.getStudentID()}</td>
+                                <td class="square-4">${record.getStudentName()}</td>
+                                <td class="square-4">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                            <c:when test="${record.getAttendancePercentage()>20}">
+                                <td class="square-5">${record.getStudentID()}</td>
+                                <td class="square-5">${record.getStudentName()}</td>
+                                <td class="square-5">${record.getAttendancePercentage()}</td>   
+                            </c:when>
+                        </c:choose> 
                         <c:forEach items="${attendanceData}" var="item">
                             <c:choose>
                                 <c:when test="${item.getStudentID() == record.getStudentID()}">
@@ -135,6 +159,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
+
                     </tr>
                 </c:forEach>
 

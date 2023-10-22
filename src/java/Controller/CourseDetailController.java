@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,20 +64,26 @@ public class CourseDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String sid = "HE153132";
-        String cid = request.getParameter("MaKhoaHoc");
-        String scheduleid = request.getParameter("MaLichHoc");
-        ScheduleDAO sd = new ScheduleDAO();
-        CourseDAO cd = new CourseDAO();
-        ArrayList<ScheduleInfo> list = sd.getStudentInfo(sid, cid);
-        List<Map<String, Object>> courselist = cd.getAllCourseOfStudent(sid);
-        System.out.println(courselist + "courselist");
-        request.setAttribute("courselist",courselist);
-        request.setAttribute("listinfo", list);
-        System.out.println("list"+list);
-        System.out.println("cid" + cid + "scheduleid" + scheduleid);
+        HttpSession session = request.getSession();
 
-        request.getRequestDispatcher("Attandance.jsp").forward(request, response);
+        String sid = (String) session.getAttribute("sid");
+        if (sid == null) {
+            response.sendRedirect("Login.jsp");
+        } else {
+            String cid = request.getParameter("MaKhoaHoc");
+            String scheduleid = request.getParameter("MaLichHoc");
+            ScheduleDAO sd = new ScheduleDAO();
+            CourseDAO cd = new CourseDAO();
+            ArrayList<ScheduleInfo> list = sd.getStudentInfo(sid, cid);
+            List<Map<String, Object>> courselist = cd.getAllCourseOfStudent(sid);
+            System.out.println(courselist + "courselist");
+            request.setAttribute("courselist", courselist);
+            request.setAttribute("listinfo", list);
+            System.out.println("list" + list);
+            System.out.println("cid" + cid + "scheduleid" + scheduleid);
+
+            request.getRequestDispatcher("Attandance.jsp").forward(request, response);
+        }
     }
 
     /**

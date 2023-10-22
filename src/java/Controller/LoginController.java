@@ -87,12 +87,14 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);
                 session.setAttribute("sid", student.getSid());
-                response.sendRedirect("Timeable.jsp");
-            }else if(b!=null){
+                response.sendRedirect("timeable");
+            }else if(instructor!=null){
+                System.out.println("This way"+instructor.getiID());
                   HttpSession session = request.getSession();
+                  
                 session.setAttribute("user", username);
                 session.setAttribute("iid",instructor.getiID());
-                response.sendRedirect("Timeable.jsp");
+                response.sendRedirect("TimeableforInstructorController");
             
             }
             else {

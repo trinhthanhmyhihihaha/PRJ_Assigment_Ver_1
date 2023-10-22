@@ -46,7 +46,7 @@ public class selectYearForInstructor extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet selectYearForInstructor</title>");            
+            out.println("<title>Servlet selectYearForInstructor</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet selectYearForInstructor at " + request.getContextPath() + "</h1>");
@@ -67,48 +67,50 @@ public class selectYearForInstructor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-              String selectYear = "2023";
+        String selectYear = "2023";
         HttpSession session = request.getSession();
-        //String sid=(String)session.getAttribute("sid");
-        String sid = "sonnt5";
+        String sid = (String) session.getAttribute("iid");
+        if (sid == null) {
+            response.sendRedirect("Login.jsp");
+        } else {
+            System.out.println(selectYear);
+            WeekDAO wd = new WeekDAO();
+            ScheduleDAO sd = new ScheduleDAO();
+            StatusDAO sttd = new StatusDAO();
+            ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
 
-        System.out.println(selectYear);
-        WeekDAO wd = new WeekDAO();
-        ScheduleDAO sd = new ScheduleDAO();
-        StatusDAO sttd=new StatusDAO();
-        ArrayList<Week> weekList = wd.getInYearWeek(selectYear);
+            String selectedWeek = request.getParameter("selectWeek");
+            System.out.println("selectedWeek" + selectedWeek);
+            String[] splitedWeek = selectedWeek.split("\\--");
 
-        String selectedWeek = request.getParameter("selectWeek");
-        System.out.println("selectedWeek" + selectedWeek);
-        String[] splitedWeek = selectedWeek.split("\\--");
+            Map<Schedule, String> maplist = sd.getScheduleStatus();
+            ArrayList<Status> sttlist = sttd.getScheduleBySlot(sid);
+            ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
+            ArrayList<Schedule> scheduleList = sd.getScheduleByInstructorID(sid, splitedWeek[0], splitedWeek[1]);
+            ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 1, false);
+            ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 2, false);
+            ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 3, false);
+            ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 4, false);
 
-            Map<Schedule,String> maplist=sd.getScheduleStatus();
-        ArrayList<Status>sttlist=sttd.getScheduleBySlot(sid);
-        ArrayList<Day> dayList = wd.getAllDayInWeek(splitedWeek[0], splitedWeek[1]);
-        ArrayList<Schedule> scheduleList = sd.getScheduleByInstructorID(sid, splitedWeek[0], splitedWeek[1]);
-        ArrayList<Schedule> scheduleListslot1 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 1,false);
-        ArrayList<Schedule> scheduleListslot2 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 2,false);
-        ArrayList<Schedule> scheduleListslot3 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 3,false);
-        ArrayList<Schedule> scheduleListslot4 = sd.getScheduleBySlotForInstructor(sid, splitedWeek[0], splitedWeek[1], 4,false);
+            System.out.println(splitedWeek[0]);
+            System.out.println(splitedWeek[1]);
+            System.out.println(scheduleList + "scueduleList");
+            System.out.println(dayList + "daylist");
+            System.out.println(selectedWeek + "selectedweek");
+            System.out.println(sttlist + "sttlist");
 
-        System.out.println(splitedWeek[0]);
-        System.out.println(splitedWeek[1]);
-        System.out.println(scheduleList + "scueduleList");
-        System.out.println(dayList + "daylist");
-        System.out.println(selectedWeek + "selectedweek");
-        System.out.println(sttlist+"sttlist");
-        
-        request.setAttribute("scheduleMap", maplist);
-        request.setAttribute("sttlist", sttlist);
-        request.setAttribute("schedulelist1", scheduleListslot1);
-        request.setAttribute("schedulelist2", scheduleListslot2);
-        request.setAttribute("schedulelist3", scheduleListslot3);
-        request.setAttribute("schedulelist4", scheduleListslot4);
-        request.setAttribute("schedulelist", scheduleList);
-        request.setAttribute("selectYear", selectYear);
-        request.setAttribute("daylist", dayList);
-        request.setAttribute("weekList", weekList);
-        request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
+            request.setAttribute("scheduleMap", maplist);
+            request.setAttribute("sttlist", sttlist);
+            request.setAttribute("schedulelist1", scheduleListslot1);
+            request.setAttribute("schedulelist2", scheduleListslot2);
+            request.setAttribute("schedulelist3", scheduleListslot3);
+            request.setAttribute("schedulelist4", scheduleListslot4);
+            request.setAttribute("schedulelist", scheduleList);
+            request.setAttribute("selectYear", selectYear);
+            request.setAttribute("daylist", dayList);
+            request.setAttribute("weekList", weekList);
+            request.getRequestDispatcher("TimeableforInstructor.jsp").forward(request, response);
+        }
     }
 
     /**

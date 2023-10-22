@@ -97,3 +97,41 @@ table tr:first-child th {
     width: 111px;
     border-width: 0px;
 }
+.square-0{
+
+    height: 30px;
+    width: 50px;
+    background-color: #5cb85c;
+} 
+.square-0{
+
+    height: 30px;
+    width: 50px;
+    background-color: #5cb85c;
+} 
+.square-1{
+    height: 30px;
+    width: 50px;
+    background-color: #f0d0ce;
+} 
+
+.square-2{
+    height: 30px;
+    width: 50px;
+    background-color: #f5af53;
+} 
+.square-3{
+    height: 30px;
+    width: 50px;
+    background-color: #fc5400;
+} 
+.square-4{
+    height: 30px;
+    width: 50px;
+    background-color: #7e00fc;
+} 
+.square-5{
+    height: 30px;
+    width: 50px;
+    background-color:#fc4138;
+} 

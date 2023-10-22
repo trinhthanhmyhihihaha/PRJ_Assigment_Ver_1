@@ -4,8 +4,6 @@
  */
 package Controller;
 
-import Models.*;
-import DAO.CourseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author myths
  */
-@WebServlet(name = "AttandanceController", urlPatterns = {"/Attandance"})
-public class AttandanceController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +37,10 @@ public class AttandanceController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AttandanceController</title>");
+            out.println("<title>Servlet LogoutController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AttandanceController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LogoutController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,20 +59,8 @@ public class AttandanceController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String iid = (String) session.getAttribute("iid");
-        if (iid.equals("")) {
-            response.sendRedirect("Login.jsp");
-
-        } else {
-            String sid = "HE153132";
-            //String sid=(String) session.getAttribute("sid");
-            CourseDAO cd = new CourseDAO();
-
-            List<Map<String, Object>> courselist = cd.getAllCourseOfStudent(sid);
-            System.out.println(courselist + "courselist");
-            request.setAttribute("courselist", courselist);
-            request.getRequestDispatcher("Attandance.jsp").forward(request, response);
-        }
+        session.invalidate();
+        response.sendRedirect("Login.jsp");
     }
 
     /**

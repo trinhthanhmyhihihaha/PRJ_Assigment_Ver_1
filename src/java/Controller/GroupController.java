@@ -63,7 +63,7 @@ public class GroupController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String cid = (String) session.getAttribute("cid");
-        String iid = "sonnt5";
+        String iid = (String) session.getAttribute("iid");
         // String cid=request.getParameter("cid");
         CourseDAO cd = new CourseDAO();
         

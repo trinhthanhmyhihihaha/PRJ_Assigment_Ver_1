@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="footer">
-
+                <h3 class="text-danger">${fail}</h3>
             </div>
 
         </div>
