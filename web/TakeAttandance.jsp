@@ -33,9 +33,8 @@
         </div>
         <div class="space">
             <div class="space-left">
-                <a class="space-content" href="Schedule">View schedule  </a>
-                <a  class="space-content" href="Mark">Mark report   </a>
-                <a class="space-content" href="Attandance">Attandance   </a>
+                <a class="space-content" href="group">Check Attandance   </a>
+
                 <text>Group </text>
             </div>
             <div class="space-right">

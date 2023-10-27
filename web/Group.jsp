@@ -33,10 +33,8 @@
         </div>
         <div class="space">
             <div class="space-left">
-                <a class="space-content" href="Schedule">View schedule  </a>
-                <a  class="space-content" href="Mark">Mark report   </a>
-                <a class="space-content" href="Attandance">Attandance   </a>
-                <text>Group </text>
+                           <a class="space-content" href="group">Check Attandance   </a>
+
             </div>
             <div class="space-right">
                 <a class="space-content-right" href="mssv"><div class="btn btn-default">Sonnt5</div> </a>

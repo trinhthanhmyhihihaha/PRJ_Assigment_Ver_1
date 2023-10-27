@@ -95,7 +95,7 @@ public class backToCurrentWeek extends HttpServlet {
             WeekDAO wd = new WeekDAO();
             ArrayList<Week> weekStorage = wd.getAllWeek();
             Week getWeek = null;
-            java.sql.Date currentWeek = java.sql.Date.valueOf("2023-10-15"); // Đây là ngày hiện tại
+            java.sql.Date currentWeek = java.sql.Date.valueOf(currentDate.toString()); // Đây là ngày hiện tại
             boolean isInWeek = false;
 
             for (Week week : weekStorage) {

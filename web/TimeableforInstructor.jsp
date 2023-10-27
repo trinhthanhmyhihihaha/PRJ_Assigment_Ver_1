@@ -138,12 +138,15 @@
                                     <td style="color: #337ab7;
                                         text-decoration: none;">             <a href="TakeAttandance?cid=${schedule.getCourseid()}&gid=${schedule.getGid()}&scheduleid=${schedule.getScheduleid()}"> ${schedule.getCourseid()} at ${schedule.getRoomid()} (7:30-9:50)</a>
                                         <c:choose>
-                                            <c:when test="${schedule.slotTaken eq 'False'}">
+                                            <c:when test="${schedule.slotTaken eq 'Absent'}">
                                                 <br>        <span style="color:red;">(Absent)</span>
                                             </c:when>
-                                            <c:otherwise>
-                                                <br>      <span style="color:green;">(Taken )</span>
-                                            </c:otherwise>
+                                         <c:when test="${schedule.slotTaken eq 'Taken'}">
+                                                <br>        <span style="color:green;">(Taken)</span>
+                                            </c:when>
+                                                  <c:when test="${schedule.slotTaken eq 'Not yet'}">
+                                                <br>        <span style="color:black;">(Not yet)</span>
+                                            </c:when>
                                         </c:choose>
 
                                     </td>

@@ -141,7 +141,7 @@ public class StudentDAO {
             statusPreparedStatement = connection.prepareStatement(updateStatusQuery);
 
             // Xây dựng câu lệnh SQL cập nhật cho [Schedule]
-            String updateScheduleQuery = "UPDATE [Schedule] SET slotTaken = 1 WHERE scheduleid = ?";
+            String updateScheduleQuery = "UPDATE [Schedule] SET slotTaken = 'Taken' WHERE scheduleid = ?";
             schedulePreparedStatement = connection.prepareStatement(updateScheduleQuery);
             System.out.println(sidList+"sid líst");
             // Iterate through the sidList and statusList to update rows in [Status]

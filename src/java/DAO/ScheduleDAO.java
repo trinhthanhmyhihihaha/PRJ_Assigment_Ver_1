@@ -79,7 +79,7 @@ public class ScheduleDAO {
                 s.setDate(localDate);
                 s.setStatus(rs.getString("status"));
                 s.setSlotNo(rs.getInt("slotNo"));
-                s.setSlotTaken(rs.getBoolean("slotTaken"));
+                s.setSlotTaken(rs.getString("slotTaken"));
                 // Lấy trường cid từ kết quả
                 String cid = rs.getString("courseid");
                 s.setCid(cid); // Đặt giá trị cid vào đối tượng Schedule
@@ -406,7 +406,7 @@ public class ScheduleDAO {
                 s.setContent(rs.getString("content"));
                 s.setSlot(rs.getInt("slot"));
                 s.setSlotNo(rs.getInt("SlotNo"));
-                s.setSlotTaken(rs.getBoolean("slotTaken"));
+                s.setSlotTaken(rs.getString("slotTaken"));
                 Date sqlDate = rs.getDate("date");
                 LocalDate localDate = sqlDate.toLocalDate();
                 s.setDate(localDate);
@@ -468,7 +468,7 @@ public class ScheduleDAO {
                 schedule.setiID(rs.getString("iID"));
                 schedule.setSlot(rs.getInt("slot"));
                 schedule.setSlotNo(rs.getInt("slotNo"));
-                schedule.setSlotTaken(rs.getBoolean("slotTaken"));
+                schedule.setSlotTaken(rs.getString("slotTaken"));
                 String courseStatus = rs.getString("status");
                 scheduleInfoMap.put(schedule, courseStatus);
 
@@ -629,7 +629,7 @@ public class ScheduleDAO {
                 s.setDate(localDate);
                 s.setCourseid(rs.getString("CourseID"));
                 s.setSlotNo(rs.getInt("slotNo"));
-                s.setSlotTaken(rs.getBoolean("slotTaken"));
+                s.setSlotTaken(rs.getString("slotTaken"));
                 scheduleList.add(s);
             }
         } catch (SQLException e) {
@@ -697,7 +697,7 @@ public class ScheduleDAO {
                 s.setDate(localDate);
                 s.setCourseid(rs.getString("CourseID"));
                 s.setSlotNo(rs.getInt("slotNo"));
-                s.setSlotTaken(rs.getBoolean("slotTaken"));
+                s.setSlotTaken(rs.getString("slotTaken"));
                 scheduleList.add(s);
             }
         } catch (SQLException e) {

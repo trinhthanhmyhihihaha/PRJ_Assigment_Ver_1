@@ -26,15 +26,17 @@
         private String status;
         private String cid;
         private int slotNo;
-        private boolean slotTaken;
+        private String slotTaken;
 
-    public boolean isSlotTaken() {
+    public String getSlotTaken() {
         return slotTaken;
     }
 
-    public void setSlotTaken(boolean slotTaken) {
+    public void setSlotTaken(String slotTaken) {
         this.slotTaken = slotTaken;
     }
+
+  
         
     public int getSlotNo() {
         return slotNo;

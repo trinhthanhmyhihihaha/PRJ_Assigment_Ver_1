@@ -2,32 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/listStudentInGroupInCourse.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/groupInCourse.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/InstructorDAO.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/LogoutController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/CourseDetailController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/GroupController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Group.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/TimeableController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/listStudentInGroupInCourse.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/LoginController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/AttandanceController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/TakeAttandance.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/backToCurrentWeek.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/selectYearController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Models/AttendanceRecord.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/GroupInCourse.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Timeable.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/AttandanceCheck.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/TimeableforInstructor.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/css/css_3.css</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/TimeableforInstructorController.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/TakeAttandance.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/DAO/ScheduleDAO.java</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/web/Login.jsp</file>
-            <file>file:/C:/Users/myths/Documents/NetBeansProjects/PRJ_Assigment_Ver_1/src/java/Controller/selectYearForInstructor.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
